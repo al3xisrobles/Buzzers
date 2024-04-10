@@ -14,10 +14,25 @@
     --popover-foreground: 222.2 84% 4.9%;
 
     --primary: #FCD13B;
-    --primary-foreground: #FCD13B;
+    --primary-foreground: #20201F;
 
     --secondary: #F8E4A2;
-    --secondary-foreground: #F8E4A2;
+    --secondary-foreground: #20201F;
+
+    --obsidian: #20201F;
+    --obsidian-foreground: #FBFBFB;
+
+    --smoke: #3B3D3B;
+    --smoke-foreground: #FBFBFB;
+
+    --salt: #FBFBFB;
+    --salt-foreground: #20201F;
+
+    --jade: #CFDBD5;
+    --jade-foreground: #20201F;
+
+    --haze: #E8EDDF;
+    --haze-foreground: #20201F;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -131,4 +146,60 @@ body {
     border-color: #FCD13B !important;
     color: #FCD13B !important;
   }
+}
+
+[data-amplify-authenticator] {
+  --amplify-components-authenticator-router-box-shadow: 0 0 0px #fff;
+  --amplify-components-authenticator-router-border-width: 0;
+  --amplify-components-authenticator-form-padding: var(--amplify-space-medium) var(--amplify-space-xl) var(--amplify-space-xl);
+  --amplify-components-button-primary-background-color: var(--primary);
+  --amplify-components-fieldcontrol-focus-box-shadow: 0 0 0 0px var(--secondary);
+  --amplify-components-tabs-item-active-border-color: var(--primary);
+  --amplify-components-tabs-item-color: var(--smoke);
+  --amplify-components-tabs-item-active-color: var(--obsidian);
+  --amplify-components-button-link-color: var(--primary);
+
+  --amplify-internal-button-disabled-text-decoration: initial;
+  --amplify-internal-button-loading-background-color: var(--amplify-components-button-loading-background-color);
+  --amplify-internal-button-loading-border-color: var(--amplify-components-button-loading-border-color);
+  --amplify-internal-button-loading-color: var(--amplify-components-button-loading-color);
+}
+
+.amplify-selectfield {
+  --amplify-components-fieldcontrol-border-color: #fff !important;
+  margin-bottom: 0px !important;
+  background-color: transparent;
+}
+
+.amplify-button:hover, .amplify-button:focus {
+  background-color: var(--secondary) !important;
+  border-color: var(--primary);
+}
+
+.amplify-tabs__item:hover {
+  color: var(--obsidian) !important;
+  opacity: 50%;
+}
+
+.amplify-button {
+  color: var(--obsidian) !important;
+}
+
+.amplify-button.amplify-field-group__control.amplify-field__show-password {
+  box-shadow: 0px 0px 4px 0px rgba(32, 32, 31, 0.25) !important;
+  border: none !important;
+}
+
+.amplify-select {
+  box-shadow: 0px 0px 4px 0px rgba(32, 32, 31, 0.25) !important;
+  border: none !important;
+}
+
+.amplify-label {
+  font-size: small !important;
+}
+
+.amplify-input {
+  border: none !important;
+  box-shadow: 0px 0px 4px 0px rgba(32, 32, 31, 0.25) !important;
 }

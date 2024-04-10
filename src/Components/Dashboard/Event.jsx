@@ -1,11 +1,13 @@
-import React from 'react'
 import Tavern from "../../Assets/Dashboard/Tavern.png"
-import Clock from '../../Assets/Dashboard/clock.svg'
-import People from '../../Assets/Dashboard/people.svg'
-import Puzzle from '../../Assets/Dashboard/puzzle.svg'
 import { Button } from "@/components/ui/button"
-import Cart from "../../Assets/Dashboard/cart.svg"
-import Bookmark from "../../Assets/Dashboard/bookmark.svg"
+
+import {
+  Bookmark,
+  Plus,
+  Clock9,
+  Users,
+  MapPin
+} from "lucide-react"
 
 function Event(props) {
 
@@ -14,7 +16,8 @@ function Event(props) {
   let desc = props["desc"]
   let duration = props["duration"]
   let impressions = props["impressions"]
-  let match = props["match"]
+  let location = props["location"]
+  // let match = props["match"]
 
   return (
     <div className='flex flex-row gap-4 w-full pb-5'>
@@ -27,29 +30,33 @@ function Event(props) {
         </div>
 
         {/* Stats */}
-        <div className='flex flex-row gap-3'>
+        <div className='flex flex-row gap-3 text-[#20201F] opacity-75'>
           <div className='flex flex-col gap-2'>
-            <img src={Clock} className="h-5" alt="clock"/>
-            <p className='text-[#20201F] opacity-50'>{duration}</p>
+            <Clock9/>
+            <p>{duration}</p>
           </div>
           <div className='flex flex-col gap-2'>
-            <img src={People} className="h-5" alt="clock"/>
-            <p className='text-[#20201F] opacity-50'>{impressions}</p>
+            <Users/>
+            <p>{impressions}</p>
           </div>
           <div className='flex flex-col gap-2'>
-            <img src={Puzzle} className="h-5" alt="clock"/>
-            <p className='text-[#20201F] opacity-50'>{match}</p>
+            <MapPin/>
+            <p>{location}</p>
           </div>
         </div>
 
         <div className="flex flex-row gap-3">
           <Button variant="default">
-            <img className="h-5 mr-2" src={Cart} alt="Cart"/>
-            Add to Cart
+            <div className='flex gap-2 items-center'>
+              <Plus/>
+              Sponsor
+            </div>
           </Button>
           <Button variant="outline">
-            <img className="h-5 mr-2" src={Bookmark} alt="Bookmark"/>
-            Save
+            <div className='flex gap-2 items-center'>
+              <Bookmark/>
+              Save
+            </div>
           </Button>
         </div>
       </div>
@@ -57,4 +64,4 @@ function Event(props) {
   )
 }
 
-export default Event
+export default Event;

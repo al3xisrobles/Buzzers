@@ -2,32 +2,25 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+// Pages
+import Dashboard from './Components/Dashboard/Pages/Dashboard'
 import PageNotFound from './Components/Landing/Pages/PageNotFound'
 import TermsOfService from './Components/Landing/Pages/TermsOfService'
 import PrivacyPolicy from './Components/Landing/Pages/PrivacyPolicy'
+import LoginPage from "./Components/Dashboard/Auth/Login"
 
+// Components
 import Hero from './Components/Landing/Hero'
 import Navbar from './Components/Landing/Navbar'
 import Footer from './Components/Landing/Footer'
 
-import Dashboard from './Components/Dashboard/Pages/Dashboard'
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDRJ_7b6BXQ1ZNwzVeWFrZ8kWfks8dKyjg",
-  authDomain: "buzzers-6a2da.firebaseapp.com",
-  projectId: "buzzers-6a2da",
-  storageBucket: "buzzers-6a2da.appspot.com",
-  messagingSenderId: "216395387521",
-  appId: "1:216395387521:web:110b2294c1c1763c29f380",
-  measurementId: "G-J4JQN51STR"
-};
-
-// Initialize Firebase
-initializeApp(firebaseConfig);
+// Amplify
+import { Amplify } from 'aws-amplify';
+import { Button, Heading } from '@aws-amplify/ui-react';
+import { AuthProvider } from './Components/Dashboard/Auth/AuthContext';
+import awsconfig from './aws-exports';
+import { useAuthenticator } from '@aws-amplify/ui-react';
+Amplify.configure(awsconfig);
 
 function FixedNavbar() {
   return (
@@ -82,9 +75,13 @@ function PageNotFoundPage() {
 
 // Component for the terms of service page
 function DashboardPage() {
+
+  const { authStatus } = useAuthenticator(context => [context.authStatus]);
+
   return (
     <div>
-      <Dashboard />
+      {authStatus === 'configuring' && 'Loading...'}
+      {authStatus !== 'authenticated' ? <LoginPage /> : <Dashboard />}
     </div>
   );
 }
@@ -92,13 +89,15 @@ function DashboardPage() {
 ReactDOM.createRoot(document.getElementById('root')).render(
   <div className="bg-cloud">
     <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-        <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="*" element={<PageNotFoundPage />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="*" element={<PageNotFoundPage />} />
+        </Routes>
+      </AuthProvider>
     </Router>
   </div>
 );

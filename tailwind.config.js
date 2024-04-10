@@ -32,6 +32,26 @@ module.exports = {
           DEFAULT: "var(--secondary)",
           foreground: "hsl(var(--secondary-foreground))",
         },
+        obsidian: {
+          DEFAULT: "var(--obsidian)",
+          foreground: "var(--obsidian-foreground)",
+        },
+        smoke: {
+          DEFAULT: "var(--smoke)",
+          foreground: "var(--smoke-foreground)",
+        },
+        salt: {
+          DEFAULT: "var(--salt)",
+          foreground: "var(--salt-foreground)",
+        },
+        jade: {
+          DEFAULT: "var(--jade)",
+          foreground: "var(--jade-foreground)",
+        },
+        haze: {
+          DEFAULT: "var(--haze)",
+          foreground: "var(--haze-foreground)",
+        },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",

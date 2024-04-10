@@ -1,48 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import Discovery from '../../../Assets/Dashboard/Sider Icons/discovery.png'
-import Deployments from '../../../Assets/Dashboard/Sider Icons/deployments.png'
-import History from '../../../Assets/Dashboard/Sider Icons/history.png'
-import Resources from '../../../Assets/Dashboard/Sider Icons/resources.png'
-import Support from '../../../Assets/Dashboard/Sider Icons/support.png'
-import Bookmark from "../../../Assets/Dashboard/bookmark.svg";
-import Cart from "../../../Assets/Dashboard/cart.svg";
-import User from "../../../Assets/Dashboard/user.svg";
+import { useEffect, useState } from 'react';
+import { ConfigProvider, Layout, Menu, theme } from 'antd';
+import renderContent from '../DashboardTabManager';
 
 import {
-  Cloud,
-  CreditCard,
-  Github,
-  Keyboard,
-  LifeBuoy,
-  LogOut,
-  Mail,
-  MessageSquare,
-  Plus,
-  PlusCircle,
-  Settings,
-  User as LucideUser,
-  UserPlus,
+  Search,
+  History,
+  Crosshair,
+  CircleHelp,
   Users,
 } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 
 import {
   RightOutlined,
   LeftOutlined,
 } from '@ant-design/icons';
-import { ConfigProvider, Breadcrumb, Layout, Menu, theme } from 'antd';
 import Logo from "../../../Assets/Dashboard/Sider Icons/Logo.svg"
-import Event from '../Event'
-const { Content, Sider } = Layout;
+const { Sider } = Layout;
 
 function getItem(label, key, icon, children) {
   return {
@@ -54,192 +27,12 @@ function getItem(label, key, icon, children) {
 }
 
 const items = [
-  getItem('Event Discovery', '1', <img className="w-5" src={Discovery} alt="discovery"/>),
-  getItem('Active Deployments', '2', <img className="w-5" src={Deployments} alt="deployments"/>),
-  getItem('Deployment History', '3', <img className="w-5" src={History} alt="history"/>),
-  getItem('Resources', '4', <img className="w-5" src={Resources} alt="resources"/>),
-  getItem('Support', '5', <img className="w-5" src={Support} alt="support"/>),
+  getItem('Event Discovery', '1',<Search/>),
+  getItem('Active Deployments', '2', <Crosshair/>),
+  getItem('Deployment History', '3', <History/>),
+  getItem('Resources', '4', <CircleHelp/>),
+  getItem('Support', '5', <Users/>),
 ];
-
-function renderContent(menuItem, colorBgContainer, borderRadiusLG) {
-
-  const [showStatusBar, setShowStatusBar] = useState(true);
-  const [showActivityBar, setShowActivityBar] = useState(false);
-  const [showPanel, setShowPanel] = useState(false);
-
-  switch (menuItem) {
-    case '1':
-      return (
-        <div>
-          <div className='flex flex-row justify-between'>
-            <div className='w-max'>
-              <Breadcrumb
-                separator=">"
-                style={{
-                  margin: '16px 0',
-                }}
-              >
-                <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
-                <Breadcrumb.Item>Event Discovery</Breadcrumb.Item>
-              </Breadcrumb>
-            </div>
-            <div className='flex flex-row items-center'>
-
-                <Button variant="ghost" className="px-3">
-                  <img src={Bookmark} className="h-5" alt="bookmark"/>
-                </Button>
-                <Button variant="ghost" className="px-3">
-                  <img src={Cart} className="h-5 m-0" alt="bookmark"/>
-                </Button>
-
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="px-3">
-                      <img src={User} className="h-5" alt="bookmark"/>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56 mr-2">
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                      checked={showStatusBar}
-                      onCheckedChange={setShowStatusBar}
-                    >
-                      <LucideUser className="mr-2 h-4 w-4" />
-                      Profile
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      checked={showActivityBar}
-                      onCheckedChange={setShowActivityBar}
-                    >
-                      <Settings className="mr-2 h-4 w-4" />
-                      Settings
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                      checked={showPanel}
-                      onCheckedChange={setShowPanel}
-                    >
-                      <LogOut className="mr-2 h-4 w-4" />
-                      Log Out
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-
-            </div>
-          </div>
-          <div>
-            <Event
-              title="Backyard Concert"
-              org="Tavern Band"
-              desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-              duration="3-4 hr"
-              impressions="400 people"
-              match="97%"
-            />
-            <hr className='border-obsidian opacity-50'/>
-          </div>
-        </div>
-      );
-    case '2':
-      return (
-        <div>
-          <Breadcrumb
-            separator=">"
-            style={{
-              margin: '16px 0',
-            }}
-          >
-            <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
-            <Breadcrumb.Item>Active Deployments</Breadcrumb.Item>
-          </Breadcrumb>
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            Bill is a cat.
-          </div>
-        </div>
-      );
-    case '3':
-      return (
-        <div>
-          <Breadcrumb
-            separator=">"
-            style={{
-              margin: '16px 0',
-            }}
-          >
-            <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
-            <Breadcrumb.Item>Deployment History</Breadcrumb.Item>
-          </Breadcrumb>
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            Bill is a cat.
-          </div>
-        </div>
-      );
-    case '4':
-      return (
-        <div>
-          <Breadcrumb
-            separator=">"
-            style={{
-              margin: '16px 0',
-            }}
-          >
-            <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
-            <Breadcrumb.Item>Resources</Breadcrumb.Item>
-          </Breadcrumb>
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            Bill is a cat.
-          </div>
-        </div>
-      );
-    case '5':
-      return (
-        <div>
-          <Breadcrumb
-            separator=">"
-            style={{
-              margin: '16px 0',
-            }}
-          >
-            <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
-            <Breadcrumb.Item>Support</Breadcrumb.Item>
-          </Breadcrumb>
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            Bill is a cat.
-          </div>
-        </div>
-      );
-    default:
-      return <div>Select an item from the menu</div>;
-  }
-}
 
 const CustomTrigger = ({ collapsed, onClick }) => {
   const triggerStyle = {
@@ -264,7 +57,6 @@ const CustomTrigger = ({ collapsed, onClick }) => {
     </div>
   );
 };
-
 
 function Dashboard() {
   const [menuItem, setMenuItem] = useState('1');
@@ -326,61 +118,14 @@ function Dashboard() {
               <CustomTrigger collapsed={collapsed} onClick={() => setCollapsed(!collapsed)}/>
             </div>
 
-            {menuItem === '1' &&
-              <Content
-                style={{
-                  margin: '0 16px',
-                }}
-              >
-                {renderContent(menuItem, colorBgContainer, borderRadiusLG)}
-
-              </Content>
-            }
-            {menuItem === '2' &&
-              <Content
-                style={{
-                  margin: '0 16px',
-                }}
-              >
-                {renderContent(menuItem, colorBgContainer, borderRadiusLG)}
-
-              </Content>
-            }
-            {menuItem === '3' &&
-              <Content
-                style={{
-                  margin: '0 16px',
-                }}
-              >
-                {renderContent(menuItem, colorBgContainer, borderRadiusLG)}
-
-              </Content>
-            }
-            {menuItem === '4' &&
-              <Content
-                style={{
-                  margin: '0 16px',
-                }}
-              >
-                {renderContent(menuItem, colorBgContainer, borderRadiusLG)}
-
-              </Content>
-            }
-            {menuItem === '5' &&
-              <Content
-                style={{
-                  margin: '0 16px',
-                }}
-              >
-                {renderContent(menuItem, colorBgContainer, borderRadiusLG)}
-
-              </Content>
-            }
+            <div className='px-4'>
+              {renderContent(menuItem)}
+            </div>
 
           </Layout>
         </Layout>
       </ConfigProvider>
     </div>
   );
-};
+}
 export default Dashboard;
