@@ -16,7 +16,6 @@ import Footer from './Components/Landing/Footer'
 
 // Amplify
 import { Amplify } from 'aws-amplify';
-import { Button, Heading } from '@aws-amplify/ui-react';
 import { AuthProvider } from './Components/Dashboard/Auth/AuthContext';
 import awsconfig from './aws-exports';
 import { useAuthenticator } from '@aws-amplify/ui-react';
