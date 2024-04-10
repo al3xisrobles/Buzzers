@@ -44,7 +44,7 @@ function Navbar() {
         {/* Navbar Buttons */}
         <div className="text-carbon hidden sm:flex items-center">
           <a href="/dashboard" className="flex justify-center items-center text-black bg-primary rounded-full hover:opacity-90 transition-all duration-300">
-            <Button className="text-black">Get Started</Button>
+            <Button className="text-black">Go to Dashboard</Button>
           </a>
         </div>
 

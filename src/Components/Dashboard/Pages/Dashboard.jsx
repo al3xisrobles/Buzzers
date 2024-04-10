@@ -61,13 +61,6 @@ const CustomTrigger = ({ collapsed, onClick }) => {
 function Dashboard() {
   const [menuItem, setMenuItem] = useState('1');
   const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
-
-  useEffect(() => {
-    console.log(menuItem);
-  }, [menuItem]);
 
   return (
     <div className="relative">
