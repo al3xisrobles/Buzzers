@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "buzzers966bc9e3": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d1f27hbeqf6r7c",
+          "type": "cicd"
+        }
       }
     }
   }
