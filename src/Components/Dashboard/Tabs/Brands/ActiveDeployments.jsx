@@ -83,7 +83,7 @@ function ActiveDeployments() {
   function renderAppropriateButton(buttonLabel) {
     if (buttonLabel === 'Confirmed' || buttonLabel === 'Paid') {
       return (
-        <Badge className="rounded-[1rem] bg-jade h-9">
+        <Badge className="rounded-[1rem] bg-haze h-9">
           <Check className='h-4'/>
           <p className='mx-1 text-[0.8rem]'>{buttonLabel}</p>
         </Badge>

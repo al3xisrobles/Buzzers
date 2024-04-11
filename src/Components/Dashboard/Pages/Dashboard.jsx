@@ -27,11 +27,11 @@ function getItem(label, key, icon, children) {
 }
 
 const items = [
-  getItem('Event Discovery', '1',<Search/>),
-  getItem('Active Deployments', '2', <Crosshair/>),
-  getItem('Deployment History', '3', <History/>),
-  getItem('Resources', '4', <CircleHelp/>),
-  getItem('Support', '5', <Users/>),
+  getItem('Event Discovery', '1',<Search className='h-5'/>),
+  getItem('Active Deployments', '2', <Crosshair className='h-5'/>),
+  getItem('Deployment History', '3', <History className='h-5'/>),
+  getItem('Resources', '4', <CircleHelp className='h-5'/>),
+  getItem('Support', '5', <Users className='h-5'/>),
 ];
 
 const CustomTrigger = ({ collapsed, onClick }) => {
@@ -81,7 +81,7 @@ function Dashboard() {
           <Sider
             collapsible
             trigger={null}
-            width={220}
+            width={225}
             collapsed={collapsed}
             onCollapse={(value) => setCollapsed(value)}
           >

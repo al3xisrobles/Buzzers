@@ -108,6 +108,18 @@ body {
   font-weight: bold;
 }
 
+.ant-menu-item {
+  margin: 10px 0px 10px 0px !important;
+  padding: 10px !important;
+}
+
+.ant-menu {
+  width: 12.5rem !important;
+  border: none !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .menu-btn .bar1, .menu-btn .bar2, .menu-btn .bar3 {
   width: 27px;
   height: 4px;
