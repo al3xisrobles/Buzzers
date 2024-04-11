@@ -26,6 +26,9 @@ import awsconfig from './aws-exports';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 Amplify.configure(awsconfig);
 
+// React hot toast notifications
+import { Toaster } from 'react-hot-toast';
+
 // Framer Motion
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -86,12 +89,15 @@ function DashboardPage() {
   const [showLoading, setShowLoading] = useState(true);
 
   // Wait before fade out starts
+  // TODO: If it isn't authenticated within 500 ms, it's never going to unshow the loading screen.
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShowLoading(false);
+      if (authStatus == 'authenticated') {
+        setShowLoading(false);
+      }
     }, 500);
     return () => clearTimeout(timer);
-  }, []);
+  }, [authStatus]);
 
   const loadingVariants = {
     initial: {
@@ -134,6 +140,17 @@ export default DashboardPage;
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <div className="bg-cloud">
+
+    <Toaster
+      toastOptions={{
+        success: {
+          iconTheme: {
+            primary: '#FCD13B',
+          },
+        },
+      }}
+    />
+
     <Router>
       <AuthProvider>
         <Routes>

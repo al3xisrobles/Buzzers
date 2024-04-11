@@ -1,9 +1,24 @@
+import { useEffect, useState } from 'react';
 import Event from '../../Event'
+import { useAuth } from '../../Auth/AuthContext'; // Make sure the path is correct
+
 
 function EventDiscovery() {
+  const { userAttributes, loading } = useAuth();
+  const [brandName, setBrandName] = useState('Brand');
+
+  useEffect(() => {
+    if (!loading) {
+      const name = userAttributes['custom:brand_name'];
+      if (name) {
+        setBrandName(name);
+      }
+    }
+  }, [loading, userAttributes]); // Depend on userAttributes to update when they do
+
   return (
     <div>
-      <h1 className='text-3xl pb-4'><span className='font-bold'>Olipop’s</span> AI-Targeted Events</h1>
+      <h1 className='text-3xl pb-4'><span className='font-bold'>{brandName}’s</span> AI-Targeted Events</h1>
 
       <Event
         title="Backyard Concert"
@@ -20,4 +35,4 @@ function EventDiscovery() {
   )
 }
 
-export default EventDiscovery
+export default EventDiscovery;

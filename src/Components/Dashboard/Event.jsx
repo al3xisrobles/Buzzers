@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react"
 import Tavern from "../../Assets/Dashboard/Tavern.png"
 import { Button } from "@/components/ui/button"
+import toast from 'react-hot-toast';
 
 import {
   Bookmark,
@@ -18,6 +20,38 @@ function Event(props) {
   let impressions = props["impressions"]
   let location = props["location"]
   // let match = props["match"]
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Save button logic
+  const [saved, setSaved] = useState(null);
+  useEffect(() => {
+    if (!isMounted) {
+      setIsMounted(true); // Set the mounted state to true after first render
+    } else {
+      // Only show toast if it's not the first render
+      if (saved) {
+        toast.success('Saved to bookmarks');
+      } else if (saved === false) {
+        toast('Removed from bookmarks');
+      }
+    }
+  }, [saved, isMounted]);
+
+  // Sponsor button logic
+  const [sponsored, setSponsored] = useState(null);
+  useEffect(() => {
+    if (!isMounted) {
+      setIsMounted(true); // Set the mounted state to true after first render
+    } else {
+      // Only show toast if it's not the first render
+      if (sponsored) {
+        toast.success('Added to cart');
+      } else if (sponsored === false) {
+        toast('Removed from cart');
+      }
+    }
+  }, [sponsored, isMounted]);
 
   return (
     <div className='flex flex-row gap-4 w-full pb-5'>
@@ -46,13 +80,13 @@ function Event(props) {
         </div>
 
         <div className="flex flex-row gap-3">
-          <Button variant="default">
+          <Button variant="default" className={sponsored ? "bg-secondary" : ""} onClick={() => setSponsored(!sponsored)}>
             <div className='flex gap-2 items-center'>
               <Plus/>
               Sponsor
             </div>
           </Button>
-          <Button variant="outline">
+          <Button variant="outline" className={saved ? "bg-gray-100" : ""} onClick={() => setSaved(!saved)}>
             <div className='flex gap-2 items-center'>
               <Bookmark/>
               Save
