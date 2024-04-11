@@ -1,6 +1,7 @@
 import EventDiscovery from "./Tabs/Brands/EventDiscovery"
 import Menu from "./Menu"
 import { DashboardBreadcrumb } from './DashboardBreadcrumb';
+import ActiveDeployments from "./Tabs/Brands/ActiveDeployments";
 
 const menuItemData = [
   {
@@ -10,8 +11,8 @@ const menuItemData = [
   },
   {
     key: '2',
-    breadcrumbItems: ['Dashboard', 'Active Sponsorships'],
-    content: 'Bill is a cat.',
+    breadcrumbItems: ['Dashboard', 'Active Deployments'],
+    content: <ActiveDeployments/>,
   },
   {
     key: '3',
