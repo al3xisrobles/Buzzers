@@ -80,19 +80,19 @@ const formFields = {
     },
   },
   signUp: {
-    brand_name: {
+    'custom:brand_name': {
       label: 'Brand Name',
       placeholder: "Olipop",
       isRequired: true,
       order: 1,
     },
-    brand_website: {
+    'custom:brand_website': {
       label: 'Website',
       placeholder: 'www.drinkolipop.com',
       isRequired: true,
       order: 2,
     },
-    representative: {
+    'custom:representative': {
       label: 'Representative Name',
       placeholder: 'Ben Goodwin',
       isRequired: true,
@@ -102,24 +102,24 @@ const formFields = {
       label: 'Representative Email',
       placeholder: 'ben@olipop.com',
       isRequired: true,
-      order: 3,
+      order: 4,
     },
     password: {
       label: "Password",
       placeholder: 'YourPasswordGoesHere!',
-      order: 4
+      order: 5,
     },
     confirm_password: {
       label: "Confirm Passsword",
       placeholder: 'YourPasswordGoesHere!',
-      order: 5,
+      order: 6,
     },
     phone_number: {
       label: 'Phone Number (optional)',
       placeholder: '1234567890',
       dialCode: '+1',
       isRequired: false,
-      order: 6,
+      order: 7,
     },
   },
   forceNewPassword: {
