@@ -31,9 +31,9 @@ function Event(props) {
     } else {
       // Only show toast if it's not the first render
       if (saved) {
-        toast.success('Saved to bookmarks');
+        toast.success('Saved to Bookmarks');
       } else if (saved === false) {
-        toast('Removed from bookmarks');
+        toast('Removed from Bookmarks');
       }
     }
   }, [saved, isMounted]);
@@ -46,9 +46,9 @@ function Event(props) {
     } else {
       // Only show toast if it's not the first render
       if (sponsored) {
-        toast.success('Added to cart');
+        toast.success('Added to Cart');
       } else if (sponsored === false) {
-        toast('Removed from cart');
+        toast('Removed from Cart');
       }
     }
   }, [sponsored, isMounted]);
@@ -82,14 +82,24 @@ function Event(props) {
         <div className="flex flex-row gap-3">
           <Button variant="default" className={sponsored ? "bg-secondary" : ""} onClick={() => setSponsored(!sponsored)}>
             <div className='flex gap-2 items-center'>
-              <Plus/>
-              Sponsor
+              {!sponsored ? (
+                <>
+                  <Plus/>
+                  <p>Sponsor</p>
+                </>
+              ) : (
+                <p>Added to Cart</p>
+              )}
             </div>
           </Button>
           <Button variant="outline" className={saved ? "bg-gray-100" : ""} onClick={() => setSaved(!saved)}>
             <div className='flex gap-2 items-center'>
               <Bookmark/>
-              Save
+              {!saved ? (
+                <p>Save</p>
+              ) : (
+                <p>Saved</p>
+              )}
             </div>
           </Button>
         </div>
