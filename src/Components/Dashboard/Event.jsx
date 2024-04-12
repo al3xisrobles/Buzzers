@@ -76,10 +76,10 @@ function Event(props) {
         <img className="w-full h-auto object-cover" src={imageLoc} alt="Tavern" />
       </div>
       <div className='flex flex-col justify-around'>
-        <div className='flex flex-col'>
-          <div className="flex justify-between">
+        <div className='flex pb-2 flex-col'>
+          <div className="flex flex-col sm:flex-row justify-between">
             <h2 className='font-bold text-3xl'>{title}</h2>
-            <Badge className="bg-haze rounded-[0.5rem]">
+            <Badge className="bg-haze my-4 sm:my-0 rounded-[0.5rem]">
               <div className="flex flex-row gap-2 items-center">
                 <CircleDollarSign/>
                 <div className="flex items-end flex-col gap-1">
@@ -96,7 +96,7 @@ function Event(props) {
         </div>
 
         {/* Stats */}
-        <div className='flex flex-row gap-3 text-[#20201F] opacity-75'>
+        <div className='flex py-1 flex-row gap-3 text-[#20201F] opacity-75'>
           <div className='flex flex-col gap-2'>
             <Clock9/>
             <p>{duration}</p>
@@ -111,7 +111,7 @@ function Event(props) {
           </div>
         </div>
 
-        <div className="flex flex-row gap-3">
+        <div className="flex pt-2 flex-row gap-3">
           <Button variant="default" className={sponsored ? "bg-secondary" : ""} onClick={() => setSponsored(!sponsored)}>
             <div className='flex gap-2 items-center'>
               {!sponsored ? (
