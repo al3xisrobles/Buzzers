@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react"
-import Tavern from "../../Assets/Dashboard/Tavern.png"
 import { Button } from "@/components/ui/button"
 import toast from 'react-hot-toast';
+
+import { Badge } from "@/components/ui/badge"
 
 import {
   Bookmark,
   Plus,
   Clock9,
   Users,
-  MapPin
+  MapPin,
+  CircleDollarSign,
 } from "lucide-react"
 
 function Event(props) {
@@ -16,10 +18,14 @@ function Event(props) {
   let title = props["title"]
   let org = props["org"]
   let desc = props["desc"]
+  let date = props["date"]
   let duration = props["duration"]
   let impressions = props["impressions"]
+  let impressionRate = props["impressionRate"]
+  let totalCost = props["totalCost"]
   let location = props["location"]
-  // let match = props["match"]
+  let imageLoc = props["imageLoc"]
+  let match = props["match"]
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -31,9 +37,13 @@ function Event(props) {
     } else {
       // Only show toast if it's not the first render
       if (saved) {
-        toast.success('Saved to Bookmarks');
+        toast.success('Saved to Bookmarks', {
+          position: 'top-right'
+        });
       } else if (saved === false) {
-        toast('Removed from Bookmarks');
+        toast('Removed from Bookmarks', {
+          position: 'top-right'
+        });
       }
     }
   }, [saved, isMounted]);
@@ -46,20 +56,42 @@ function Event(props) {
     } else {
       // Only show toast if it's not the first render
       if (sponsored) {
-        toast.success('Added to Cart');
+        toast.success('Added to Cart', {
+          position: 'top-right'
+        });
       } else if (sponsored === false) {
-        toast('Removed from Cart');
+        toast('Removed from Cart', {
+          position: 'top-right'
+        });
       }
     }
   }, [sponsored, isMounted]);
 
   return (
-    <div className='flex flex-row gap-4 w-full pb-5'>
-      <img className="w-[18rem]" src={Tavern} alt="Tavern" />
+    <div className='flex flex-col sm:flex-row gap-4 w-full pb-5'>
+      <div className="min-w-[5rem] max-w-[15rem] aspect-h-9">
+        <div className="p-2 absolute">
+          <Badge className="bg-secondary md:px-3 sm:text-[0.7rem] lg:text-[0.8rem] rounded-[0.4rem] sm:py-1">{match} match</Badge>
+        </div>
+        <img className="w-full h-auto object-cover" src={imageLoc} alt="Tavern" />
+      </div>
       <div className='flex flex-col justify-around'>
         <div className='flex flex-col'>
-          <h2 className='font-bold text-3xl'>{title}</h2>
-          <h3 className='font-bold text-xl pb-2'>{org}</h3>
+          <div className="flex justify-between">
+            <h2 className='font-bold text-3xl'>{title}</h2>
+            <Badge className="bg-haze rounded-[0.5rem]">
+              <div className="flex flex-row gap-2 items-center">
+                <CircleDollarSign/>
+                <div className="flex items-end flex-col gap-1">
+                  <p className="font-bold">${impressionRate}0/impression</p>
+                  <p>${totalCost}.00</p>
+                </div>
+              </div>
+            </Badge>
+          </div>
+          <div className='flex flex-row gap-2 text-xl pb-2'>
+            <p>{date} | {org}</p>
+          </div>
           <p>{desc}</p>
         </div>
 
