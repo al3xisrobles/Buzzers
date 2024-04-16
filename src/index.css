@@ -239,3 +239,8 @@ body {
 .spin {
   animation: spin 1s linear infinite;
 }
+
+/* This will ensure text within the DrawerContent can be selected */
+.drawerContentSelectable * {
+  user-select: text !important;
+}

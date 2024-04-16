@@ -140,10 +140,10 @@ function CartPopout() {
           <div className='flex flex-row gap-3'>
             {previousEvents.map((event, index) => {
               return (
-                <div key={index} className='cursor-pointer hover:opacity-75 transition flex flex-col gap-2'>
+                <a href="/dashboard" key={index} className='cursor-pointer hover:opacity-75 transition flex flex-col gap-2'>
                   <img src={Tavern} alt="Org event" className='pointer-events-none w-36 rounded-[0.5rem]'/>
                   <p className='pl-1'>Event name</p>
-                </div>
+                </a>
               )
             })}
           </div>
