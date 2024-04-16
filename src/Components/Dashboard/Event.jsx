@@ -20,7 +20,7 @@ function Event(props) {
         <div className="p-2 absolute">
           <Badge className="bg-secondary md:px-3 sm:text-[0.7rem] lg:text-[0.8rem] rounded-[0.4rem] sm:py-1">{match} match</Badge>
         </div>
-        <img className="w-full h-auto object-cover" src={imageLoc} alt="Tavern" />
+        <img className="w-full h-auto object-cover rounded-[0.5rem]" src={imageLoc} alt="Tavern" />
       </div>
       <div className='flex flex-col justify-around'>
         <div className='flex pb-2 flex-col'>
