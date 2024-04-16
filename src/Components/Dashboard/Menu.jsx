@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
 import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useCart } from "./UserContext"
+import CartSider from "./CartSider"
 
 import {
   DropdownMenu,
@@ -11,6 +13,13 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { Button } from "@/components/ui/button"
+
+import {
+  Drawer,
+  DrawerContent,
+  DrawerTrigger,
+  DrawerFooter,
+} from "@/components/ui/drawer"
 
 import {
   LogOut,
@@ -27,20 +36,34 @@ const Menu = () => {
   const [showActivityBar, setShowActivityBar] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
 
-  const { user, signOut } = useAuthenticator((context) => [context.user]);
+  const { cartQuantity } = useCart();
 
-  useEffect(() => {
-    console.log("USER:", user);
-  }, [user])
+  const { signOut } = useAuthenticator((context) => [context.user]);
 
   return (
   <div className='flex flex-row items-center'>
     <Button variant="ghost" className="px-3">
       <Bookmark/>
     </Button>
-    <Button variant="ghost" className="px-3">
-      <ShoppingCart/>
-    </Button>
+
+    <Drawer direction="right">
+      <DrawerTrigger>
+        <Button variant="ghost" className="px-3">
+          <div className="flex flex-row items-center gap-2">
+            <ShoppingCart/>
+            {cartQuantity}
+          </div>
+        </Button>
+      </DrawerTrigger>
+      <DrawerContent className="p-5">
+        <CartSider/>
+        <DrawerFooter className="w-max ml-auto">
+          <Button>
+            Review and Deploy
+          </Button>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
 
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

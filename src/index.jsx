@@ -19,10 +19,14 @@ import Footer from './Components/Landing/Footer'
 import BuzzersText from "./Assets/Dashboard/BuzzersText.svg"
 import BuzzersLogo from "./Assets/Dashboard/LogoYellow.svg"
 
+// Contexts
+import { AuthProvider } from './Components/Dashboard/Auth/AuthContext';
+import { UserProvider } from './Components/Dashboard/UserContext';
+
 // Amplify
 import { Amplify } from 'aws-amplify';
-import { AuthProvider } from './Components/Dashboard/Auth/AuthContext';
 import awsconfig from './aws-exports';
+import { useAuth } from './Components/Dashboard/Auth/AuthContext';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 Amplify.configure(awsconfig);
 
@@ -85,19 +89,19 @@ function PageNotFoundPage() {
 
 // Component for the terms of service page
 function DashboardPage() {
+  const { loadingAttributes } = useAuth();
   const { authStatus } = useAuthenticator(context => [context.authStatus]);
   const [showLoading, setShowLoading] = useState(true);
 
   // Wait before fade out starts
-  // TODO: If it isn't authenticated within 500 ms, it's never going to unshow the loading screen.
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (authStatus == 'authenticated') {
+    const interval = setInterval(() => {
+      if (loadingAttributes == false) {
         setShowLoading(false);
+        clearInterval(interval);
       }
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [authStatus]);
+    }, 100);
+  }, [loadingAttributes]);
 
   const loadingVariants = {
     initial: {
@@ -153,13 +157,15 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
     <Router>
       <AuthProvider>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-          <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="*" element={<PageNotFoundPage />} />
-        </Routes>
+        <UserProvider>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="*" element={<PageNotFoundPage />} />
+          </Routes>
+        </UserProvider>
       </AuthProvider>
     </Router>
   </div>

@@ -1,71 +1,18 @@
-import { useEffect, useState } from "react"
-import { Button } from "@/components/ui/button"
-import toast from 'react-hot-toast';
-
 import { Badge } from "@/components/ui/badge"
 
 import {
-  Bookmark,
-  Plus,
   Clock9,
   Users,
   MapPin,
   CircleDollarSign,
 } from "lucide-react"
+import SponsorBtn from "./SponsorBtn";
+import SaveBtn from "./SaveBtn";
 
 function Event(props) {
 
-  let title = props["title"]
-  let org = props["org"]
-  let desc = props["desc"]
-  let date = props["date"]
-  let duration = props["duration"]
-  let impressions = props["impressions"]
-  let impressionRate = props["impressionRate"]
-  let totalCost = props["totalCost"]
-  let location = props["location"]
-  let imageLoc = props["imageLoc"]
-  let match = props["match"]
-
-  const [isMounted, setIsMounted] = useState(false);
-
-  // Save button logic
-  const [saved, setSaved] = useState(null);
-  useEffect(() => {
-    if (!isMounted) {
-      setIsMounted(true); // Set the mounted state to true after first render
-    } else {
-      // Only show toast if it's not the first render
-      if (saved) {
-        toast.success('Saved to Bookmarks', {
-          position: 'top-right'
-        });
-      } else if (saved === false) {
-        toast('Removed from Bookmarks', {
-          position: 'top-right'
-        });
-      }
-    }
-  }, [saved, isMounted]);
-
-  // Sponsor button logic
-  const [sponsored, setSponsored] = useState(null);
-  useEffect(() => {
-    if (!isMounted) {
-      setIsMounted(true); // Set the mounted state to true after first render
-    } else {
-      // Only show toast if it's not the first render
-      if (sponsored) {
-        toast.success('Added to Cart', {
-          position: 'top-right'
-        });
-      } else if (sponsored === false) {
-        toast('Removed from Cart', {
-          position: 'top-right'
-        });
-      }
-    }
-  }, [sponsored, isMounted]);
+  // Props destructuring for cleanliness
+  const { title, org, desc, date, duration, impressions, impressionRate, totalCost, location, imageLoc, match } = props;
 
   return (
     <div className='flex flex-col sm:flex-row gap-4 w-full pb-5'>
@@ -112,28 +59,8 @@ function Event(props) {
         </div>
 
         <div className="flex pt-2 flex-row gap-3">
-          <Button variant="default" className={sponsored ? "bg-secondary" : ""} onClick={() => setSponsored(!sponsored)}>
-            <div className='flex gap-2 items-center'>
-              {!sponsored ? (
-                <>
-                  <Plus/>
-                  <p>Sponsor</p>
-                </>
-              ) : (
-                <p>Added to Cart</p>
-              )}
-            </div>
-          </Button>
-          <Button variant="outline" className={saved ? "bg-gray-100" : ""} onClick={() => setSaved(!saved)}>
-            <div className='flex gap-2 items-center'>
-              <Bookmark/>
-              {!saved ? (
-                <p>Save</p>
-              ) : (
-                <p>Saved</p>
-              )}
-            </div>
-          </Button>
+          <SponsorBtn/>
+          <SaveBtn/>
         </div>
       </div>
     </div>

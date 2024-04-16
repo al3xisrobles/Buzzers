@@ -8,7 +8,7 @@ const AuthContext = React.createContext(null);
 
 export const AuthProvider = ({ children }) => {
   // Loading user data
-  const [loading, setLoading] = useState()
+  const [loadingAttributes, setLoadingAttributes] = useState()
 
   // User attributes
   const [userAttributes, setUserAttributes] = useState({});
@@ -19,10 +19,10 @@ export const AuthProvider = ({ children }) => {
       try {
         const attributes = await fetchUserAttributes();
         setUserAttributes(attributes);
-        setLoading(false);
+        setLoadingAttributes(false);
       } catch (error) {
         console.log("Error fetching user attributes:", error);
-        setLoading(false);
+        setLoadingAttributes(false);
       }
     }
     fetchAttributes();
@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
     <Authenticator.Provider>
       <AuthContext.Provider value={{
         userAttributes,
-        loading,
+        loadingAttributes,
       }}>
         {children}
       </AuthContext.Provider>

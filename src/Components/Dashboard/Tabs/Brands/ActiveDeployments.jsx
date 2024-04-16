@@ -97,7 +97,7 @@ function ActiveDeployments() {
       );
     } else if (buttonLabel === 'Pay Now') {
       return (
-        <Button className="bg-secondary h-9">
+        <Button className="rounded-[1rem] bg-secondary h-9">
           <p className='ml-1'>{buttonLabel}</p>
           <ChevronRight className='h-4'/>
         </Button>

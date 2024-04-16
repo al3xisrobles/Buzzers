@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { ConfigProvider, Layout, Menu, theme } from 'antd';
+import { useState } from 'react';
+import { ConfigProvider, Layout, Menu } from 'antd';
 import renderContent from '../DashboardTabManager';
 
 import {
@@ -86,7 +86,7 @@ function Dashboard() {
             onCollapse={(value) => setCollapsed(value)}
           >
             <div className='flex h-full flex-col'>
-              <div className={`py-10 px-7 ${!collapsed && 'w-max'}`}>
+              <div className={`flex py-10 px-7 ${!collapsed && 'w-max'}`}>
                 <a href='/' className=''>
                   <img src={Logo} className='w-[2rem]' alt="Buzzers"/>
                 </a>
