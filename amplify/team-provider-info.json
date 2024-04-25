@@ -22,5 +22,64 @@
         }
       }
     }
+  },
+  "buzzersdev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-buzzers-buzzersdev-d3ab1-authRole",
+      "UnauthRoleArn": "arn:aws:iam::381492035884:role/amplify-buzzers-buzzersdev-d3ab1-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::381492035884:role/amplify-buzzers-buzzersdev-d3ab1-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-buzzers-buzzersdev-d3ab1-deployment",
+      "UnauthRoleName": "amplify-buzzers-buzzersdev-d3ab1-unauthRole",
+      "StackName": "amplify-buzzers-buzzersdev-d3ab1",
+      "StackId": "arn:aws:cloudformation:us-east-2:381492035884:stack/amplify-buzzers-buzzersdev-d3ab1/2b0cd430-0041-11ef-b5c3-0a5cdea0add9",
+      "AmplifyAppId": "d3irj9agirlbc9"
+    },
+    "categories": {
+      "auth": {
+        "buzzers966bc9e3": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d3irj9agirlbc9",
+          "type": "cicd"
+        }
+      }
+    }
+  },
+  "buzzersenv": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-buzzers-buzzersenv-e1f86-authRole",
+      "UnauthRoleArn": "arn:aws:iam::381492035884:role/amplify-buzzers-buzzersenv-e1f86-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::381492035884:role/amplify-buzzers-buzzersenv-e1f86-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-buzzers-buzzersenv-e1f86-deployment",
+      "UnauthRoleName": "amplify-buzzers-buzzersenv-e1f86-unauthRole",
+      "StackName": "amplify-buzzers-buzzersenv-e1f86",
+      "StackId": "arn:aws:cloudformation:us-east-2:381492035884:stack/amplify-buzzers-buzzersenv-e1f86/84142b40-0051-11ef-aeab-06c02131cd47",
+      "AmplifyAppId": "d3irj9agirlbc9"
+    },
+    "categories": {
+      "auth": {
+        "buzzers966bc9e3": {},
+        "userPoolGroups": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d3irj9agirlbc9",
+          "type": "cicd"
+        }
+      },
+      "function": {
+        "BuzzersRDSConnectLambda": {
+          "dbName": "buzzers-db",
+          "password": "ILoveBuzzers",
+          "rdsProxyHost": "proxy-1713756724743-buzzers-db.proxy-cbmmig4ckf52.us-east-2.rds.amazonaws.com",
+          "userName": "buzzers",
+          "deploymentBucketName": "amplify-buzzers-buzzersenv-e1f86-deployment",
+          "s3Key": "amplify-builds/BuzzersRDSConnectLambda-71437255574d68742b6b-build.zip"
+        }
+      }
+    }
   }
 }

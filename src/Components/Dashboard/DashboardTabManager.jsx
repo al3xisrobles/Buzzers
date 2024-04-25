@@ -2,6 +2,7 @@ import EventDiscovery from "./Tabs/Brands/EventDiscovery"
 import Menu from "./Menu"
 import { DashboardBreadcrumb } from './DashboardBreadcrumb';
 import ActiveDeployments from "./Tabs/Brands/ActiveDeployments";
+import DeploymentHistory from "./Tabs/Brands/DeploymentHistory";
 
 const menuItemData = [
   {
@@ -17,7 +18,7 @@ const menuItemData = [
   {
     key: '3',
     breadcrumbItems: ['Dashboard', 'Deployment History'],
-    content: 'Bill is a cat.',
+    content: <DeploymentHistory/>,
   },
   {
     key: '4',

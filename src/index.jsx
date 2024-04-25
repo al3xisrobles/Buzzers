@@ -115,7 +115,7 @@ function DashboardPage() {
 
   return (
     <div>
-      {authStatus === 'configuring' && <div className='bg-salt w-screen h-screen fixed'>HELLO</div>}
+      {authStatus === 'configuring' && <div className='bg-salt w-screen h-screen fixed'>Loading...</div>}
       {(authStatus !== 'configuring' && authStatus !== 'authenticated') ? <LoginPage /> : (
         <>
           <AnimatePresence>
@@ -133,7 +133,9 @@ function DashboardPage() {
               </motion.div>
             )}
           </AnimatePresence>
-          <Dashboard/>
+          <div className='h-screen'>
+            <Dashboard/>
+          </div>
         </>
       )}
     </div>
