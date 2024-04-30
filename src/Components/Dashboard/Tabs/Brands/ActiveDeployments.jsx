@@ -32,6 +32,7 @@ import {
   Clock5,
   ChevronRight,
 } from "lucide-react"
+import { Link } from 'react-router-dom'
 
 const columns = [
   "Date",
@@ -73,9 +74,9 @@ const rows = [
 function ActiveDeployments() {
 
   // Dropdown states
-  const [showStatusBar, setShowStatusBar] = useState(true);
-  const [showActivityBar, setShowActivityBar] = useState(false);
-  const [showPanel, setShowPanel] = useState(false);
+  const [showStatusBar] = useState(true);
+  const [showActivityBar] = useState(false);
+  const [showPanel] = useState(false);
 
   // Labels that will turn to buttons instead of text
   const buttonLabels = ['Confirmed', 'Pay Now', 'Pending', 'Select Status', 'Paid'];
@@ -97,10 +98,12 @@ function ActiveDeployments() {
       );
     } else if (buttonLabel === 'Pay Now') {
       return (
-        <Button className="rounded-[1rem] bg-secondary h-9">
-          <p className='ml-1'>{buttonLabel}</p>
-          <ChevronRight className='h-4'/>
-        </Button>
+        <Link to="/pay">
+          <Button className="rounded-[1rem] bg-secondary h-9">
+            <p className='ml-1'>{buttonLabel}</p>
+            <ChevronRight className='h-4'/>
+          </Button>
+        </Link>
       );
     } else if (buttonLabel === 'Select Status') {
       return (

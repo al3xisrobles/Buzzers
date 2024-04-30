@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useCart } from "./UserContext"
 import CartSider from "./CartSider"
+import { Link } from "react-router-dom";
 
 import {
   DropdownMenu,
@@ -32,9 +33,9 @@ import {
 
 const Menu = () => {
 
-  const [showStatusBar, setShowStatusBar] = useState(true);
-  const [showActivityBar, setShowActivityBar] = useState(false);
-  const [showPanel, setShowPanel] = useState(false);
+  const [showStatusBar] = useState(true);
+  const [showActivityBar] = useState(false);
+  const [showPanel] = useState(false);
 
   const { cartQuantity } = useCart();
 
@@ -58,9 +59,11 @@ const Menu = () => {
       <DrawerContent className="p-5">
         <CartSider/>
         <DrawerFooter className="w-max ml-auto">
-          <Button>
-            Review and Deploy
-          </Button>
+          <Link to="/checkout">
+            <Button>
+              Review and Deploy
+            </Button>
+          </Link>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

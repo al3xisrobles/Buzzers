@@ -52,8 +52,7 @@ function EventDiscovery() {
 
       {events.map((event, index) => {
         return (
-          <div key={index}>
-            <hr className='border-obsidian opacity-50 mb-5'/>
+          <div key={index} className='py-1'>
             <Event
               title={event["title"]}
               org={event["org"]}

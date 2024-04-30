@@ -1,7 +1,5 @@
-import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faTiktok, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import toast, { Toaster } from 'react-hot-toast';
 import FullLogoWhite from "../../Assets/FullLogoSalt.svg"
 
@@ -86,8 +84,6 @@ function Footer() {
       </div>
 
       <div><Toaster/></div>
-
-
     </footer>
   );
 }

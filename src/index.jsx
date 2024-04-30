@@ -9,6 +9,9 @@ import PageNotFound from './Components/Landing/Pages/PageNotFound'
 import TermsOfService from './Components/Landing/Pages/TermsOfService'
 import PrivacyPolicy from './Components/Landing/Pages/PrivacyPolicy'
 import LoginPage from "./Components/Dashboard/Auth/Login"
+import DeploymentSummary from './Components/Dashboard/Pages/DeploymentSummary';
+import BrandAllSet from './Components/Dashboard/Pages/BrandAllSet';
+import BrandPay from './Components/Dashboard/Pages/BrandPay';
 
 // Components
 import Hero from './Components/Landing/Hero'
@@ -165,6 +168,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/terms-of-service" element={<TermsOfServicePage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/checkout" element={<DeploymentSummary />} />
+            <Route path="/allset" element={<BrandAllSet />} />
+            <Route path="/pay" element={<BrandPay />} />
             <Route path="*" element={<PageNotFoundPage />} />
           </Routes>
         </UserProvider>

@@ -269,7 +269,7 @@ function DeploymentHistory() {
                   axisLine={false}
                   tickFormatter={(value) => `${value}`}
                 />
-                <Tooltip cursor={{fill: 'var(--salt)'}} content={<CustomTooltip />} />
+                <Tooltip cursor={{fill: 'var(--secondary)'}} content={<CustomTooltip />} />
                 <Bar dataKey="total" fill="var(--primary)" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
