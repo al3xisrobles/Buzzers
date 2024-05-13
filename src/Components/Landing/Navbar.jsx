@@ -5,11 +5,6 @@ import { Button } from "@/components/ui/button"
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    console.log(isMobileMenuOpen);
-  }, [isMobileMenuOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,33 +22,21 @@ function Navbar() {
   }, []);
 
   return (
-    <nav className={`bg-popover z-50 px-6 sm:px-8 ${scrolled && "border-b-2"} ${scrolled && !isMobileMenuOpen && "py-2"} ${!scrolled && isMobileMenuOpen ? "" : "transition-colors duration-300"} ${!scrolled && isMobileMenuOpen && "border-b-2"} ${scrolled || isMobileMenuOpen ? 'py-4' : 'py-4'}`}>
-      {/* Mobile Menu */}
-      <div className={`sm:hidden justify-center relative z-0 top-full gap-4 sm:gap-0 right-0 left-0 text-viridian flex flex-row items-center py-4 transition-all ${isMobileMenuOpen ? 'translate-y-0' : '-translate-y-[100%] opacity-0 max-h-[0px]'}`}>
-        <a href="/#how-it-works" className="border-2 rounded-full px-4 py-1 mx-4 hover:opacity-75 transition-all duration-300" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>How it Works</a>
-        <a href="/#get-notified" className="flex justify-center items-center bg-primary text-white rounded-full px-5 py-2 mx-4 hover:opacity-90 transition-all duration-300" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-          <p className='text-white'>Get Notified</p>
-        </a>
-      </div>
-
+    <nav className={`bg-popover z-50 py-5 px-6 sm:px-8 border-gray-200 ${scrolled && "border-b-2"}`}>
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         <a href="/" className='w-28'>
           <img src={FullLogo} alt="Buzzers" />
         </a>
 
         {/* Navbar Buttons */}
-        <div className="text-carbon hidden sm:flex items-center">
+        <div className="text-carbon hidden sm:flex flex-row gap-2 items-center">
+          <a href="/about">
+            <Button variant="ghost">Learn more</Button>
+          </a>
           <a href="/dashboard" className="flex justify-center items-center text-black bg-primary rounded-full hover:opacity-90 transition-all duration-300">
-            <Button className="text-black">Go to Dashboard</Button>
+            <Button className="shadow-input text-black">Sign up</Button>
           </a>
         </div>
-
-        {/* Hamburger Icon */}
-        <button className={`menu-btn sm:hidden ${isMobileMenuOpen ? 'open' : ''}`} onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-          <div class="bar1"></div>
-          <div class="bar2"></div>
-          <div class="bar3"></div>
-        </button>
       </div>
     </nav>
   );

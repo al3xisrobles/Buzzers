@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 function PageNotFound() {
 
   return (
-    <div className="relative w-screen border-b" id="how-it-works">
+    <div className="bg-salt relative w-screen border-b" id="how-it-works">
 
       {/* Hero image container */}
       <div className="px-4 text-center h-screen w-screen">

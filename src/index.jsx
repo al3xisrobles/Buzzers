@@ -8,7 +8,7 @@ import Dashboard from './Components/Dashboard/Pages/Dashboard'
 import PageNotFound from './Components/Landing/Pages/PageNotFound'
 import TermsOfService from './Components/Landing/Pages/TermsOfService'
 import PrivacyPolicy from './Components/Landing/Pages/PrivacyPolicy'
-import LoginPage from "./Components/Dashboard/Auth/Login"
+import LoginPage from "./Components/Dashboard/Onboarding/Login"
 import DeploymentSummary from './Components/Dashboard/Pages/DeploymentSummary';
 import BrandAllSet from './Components/Dashboard/Pages/BrandAllSet';
 import BrandPay from './Components/Dashboard/Pages/BrandPay';
@@ -38,6 +38,8 @@ import { Toaster } from 'react-hot-toast';
 
 // Framer Motion
 import { motion, AnimatePresence } from 'framer-motion';
+import OrgConfirmationPage from './Components/Dashboard/Onboarding/Organizations/ConfirmationPage';
+import OrgProfile from './Components/Dashboard/Onboarding/Organizations/Profile';
 
 function FixedNavbar() {
   return (
@@ -96,6 +98,8 @@ function DashboardPage() {
   const { authStatus } = useAuthenticator(context => [context.authStatus]);
   const [showLoading, setShowLoading] = useState(true);
 
+  const [signedUp, setSignedUp] = useState(false);
+
   // Wait before fade out starts
   useEffect(() => {
     const interval = setInterval(() => {
@@ -105,6 +109,10 @@ function DashboardPage() {
       }
     }, 100);
   }, [loadingAttributes]);
+
+  useEffect(() => {
+    console.log('Auth status:', authStatus);
+  }, [authStatus])
 
   const loadingVariants = {
     initial: {
@@ -119,7 +127,9 @@ function DashboardPage() {
   return (
     <div>
       {authStatus === 'configuring' && <div className='bg-salt w-screen h-screen fixed'>Loading...</div>}
-      {(authStatus !== 'configuring' && authStatus !== 'authenticated') ? <LoginPage /> : (
+      {(authStatus !== 'configuring' && authStatus !== 'authenticated') ? (
+        <LoginPage />
+      ) : (
         <>
           <AnimatePresence>
             {showLoading && (
@@ -137,7 +147,12 @@ function DashboardPage() {
             )}
           </AnimatePresence>
           <div className='h-screen'>
-            <Dashboard/>
+            {signedUp ? (
+              // <Dashboard />
+              <OrgConfirmationPage />
+            ) : (
+              <OrgProfile setSignedUp={setSignedUp}/>
+            )}
           </div>
         </>
       )}

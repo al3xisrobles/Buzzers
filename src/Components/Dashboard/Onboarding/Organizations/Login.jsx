@@ -1,12 +1,13 @@
-import Logo from "../../../Assets/Dashboard/LogoYellow.svg"
+import Logo from "../../../../Assets/Dashboard/LogoYellow.svg";
 import { Authenticator } from '@aws-amplify/ui-react';
 import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useEffect, useState } from 'react';
 
 const components = {
   Header() {
     return (
       <div className="w-full flex flex-col gap-8 items-center justify-center pb-10">
-        <img src={Logo} className="w-20" alt="Buzzers"/>
+        <img src={Logo} className="w-20" alt="Buzzers" />
         <div className="flex flex-col items-center">
           <h1 className="font-bold text-2xl p-2">Event sponsorship, reimagined.</h1>
           <p>Ready to get started?</p>
@@ -76,45 +77,45 @@ const formFields = {
     },
   },
   signUp: {
-    'custom:brand_name': {
-      label: 'Brand Name',
-      placeholder: "Olipop",
+    'custom:org_name': {
+      label: 'Organization Name',
+      placeholder: "Buzzers",
       isRequired: true,
       order: 1,
     },
-    'custom:brand_website': {
-      label: 'Website',
-      placeholder: 'www.drinkolipop.com',
+    'custom:first_name': {
+      label: 'Representative First Name',
+      placeholder: 'First',
       isRequired: true,
       order: 2,
     },
-    'custom:representative': {
-      label: 'Representative Name',
-      placeholder: 'Ben Goodwin',
+    'custom:last_name': {
+      label: 'Representative Last Name',
+      placeholder: 'Last',
       isRequired: true,
       order: 3,
-    },
-    email: {
-      label: 'Representative Email',
-      placeholder: 'ben@olipop.com',
-      isRequired: true,
-      order: 4,
-    },
-    password: {
-      label: "Password",
-      placeholder: 'YourPasswordGoesHere!',
-      order: 5,
-    },
-    confirm_password: {
-      label: "Confirm Passsword",
-      placeholder: 'YourPasswordGoesHere!',
-      order: 6,
     },
     phone_number: {
       label: 'Phone Number (optional)',
       placeholder: '1234567890',
       dialCode: '+1',
       isRequired: false,
+      order: 4,
+    },
+    email: {
+      label: 'Representative Email',
+      placeholder: 'dan@buzzers.com',
+      isRequired: true,
+      order: 5,
+    },
+    password: {
+      label: "Password",
+      placeholder: 'YourPasswordGoesHere!',
+      order: 6,
+    },
+    confirm_password: {
+      label: "Confirm Password",
+      placeholder: 'YourPasswordGoesHere!',
       order: 7,
     },
   },
@@ -158,12 +159,28 @@ const formFields = {
   },
 };
 
-function BrandLogin() {
+function OrgLogin() {
+  const { route } = useAuthenticator();
+  const [recordedRoutes, setRecordedRoutes] = useState([]);
+
+  // There's some bug where the page renders the default authenticator component
+  // instead of the one we've defined. The following 2 useEffects is a temporary fix.
+  useEffect(() => {
+    if (recordedRoutes[0] === 'signIn') {
+      window.location.reload();
+    }
+  }, [recordedRoutes]);
+
+  useEffect(() => {
+    setRecordedRoutes(prevRoutes => [...prevRoutes, route]);
+    console.log("Adding route")
+  }, [route]);
+
   return (
     <Authenticator formFields={formFields} components={components} initialState="signUp">
       {({ signOut }) => <button onClick={signOut}>Sign out</button>}
     </Authenticator>
-  )
+  );
 }
 
-export default BrandLogin
+export default OrgLogin;

@@ -1,5 +1,3 @@
-import React from 'react'
-
 function PrivacyPolicy() {
 
   const text = `Last updated: January 21, 2024
@@ -123,7 +121,7 @@ function PrivacyPolicy() {
 
 
   return (
-    <div className="mx-auto border-b px-6 pt-8 pb-6 flex flex-col justify-center">
+    <div className="bg-salt mx-auto border-b px-6 pt-8 pb-6 flex flex-col justify-center">
       <div className="max-w-[800px] mx-auto py-16">
 
         {/* Header */}

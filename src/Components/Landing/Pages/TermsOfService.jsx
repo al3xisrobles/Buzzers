@@ -1,5 +1,3 @@
-import React from 'react'
-
 function TermsOfService() {
 
   const text = `Last updated: January 21, 2024
@@ -54,7 +52,7 @@ function TermsOfService() {
 
 
   return (
-    <div className="mx-auto border-b px-6 pt-8 pb-6 flex flex-col justify-center">
+    <div className="bg-salt mx-auto border-b px-6 pt-8 pb-6 flex flex-col justify-center">
       <div className="max-w-[800px] mx-auto py-16">
 
         {/* Header */}

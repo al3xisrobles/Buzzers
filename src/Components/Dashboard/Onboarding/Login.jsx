@@ -1,47 +1,47 @@
-import Logo from "../../../Assets/Dashboard/LogoYellow.svg"
+// import Logo from "../../../Assets/Dashboard/LogoYellow.svg"
 import { Button } from "@/components/ui/button"
 import {
   ChevronLeft,
-  Building2,
-  HeartHandshake,
-  LoaderCircle,
+  // Building2,
+  // HeartHandshake,
+  // LoaderCircle,
 } from "lucide-react"
-import { useEffect, useState } from "react";
-import BrandLogin from "./BrandLogin";
-import OrgLogin from "./OrgLogin";
+// import { useEffect, useState } from "react";
+// import BrandLogin from "./BrandLogin";
+import OrgLogin from "./Organizations/Login";
 
-const components = {
-  Header() {
-    return (
-      <div className="w-full flex flex-col gap-8 items-center justify-center pb-10">
-        <img src={Logo} className="w-20" alt="Buzzers"/>
-        <div className="flex flex-col items-center">
-          <h1 className="font-bold text-2xl p-2">Event sponsorship, reimagined.</h1>
-          <p>Ready to get started?</p>
-        </div>
-      </div>
-    );
-  }
-};
+// const components = {
+//   Header() {
+//     return (
+//       <div className="w-full flex flex-col gap-8 items-center justify-center pb-10">
+//         <img src={Logo} className="w-20" alt="Buzzers"/>
+//         <div className="flex flex-col items-center">
+//           <h1 className="font-bold text-2xl p-2">Event sponsorship, reimagined.</h1>
+//           <p>Ready to get started?</p>
+//         </div>
+//       </div>
+//     );
+//   }
+// };
 
 function Login() {
-  const [userType, setUserType] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [doneLoading, setDoneLoading] = useState(false);
+  // const [userType, setUserType] = useState(null);
+  // const [loading, setLoading] = useState(false);
+  // const [doneLoading, setDoneLoading] = useState(false);
 
-  useEffect(() => {
-    if (userType) {
-      setLoading(true);
-    }
-  }, [userType]);
+  // useEffect(() => {
+  //   if (userType) {
+  //     setLoading(true);
+  //   }
+  // }, [userType]);
 
-  useEffect(() => {
-    if (loading) {
-      setTimeout(() => {
-        setDoneLoading(true);
-      }, 500);
-    }
-  }, [loading]);
+  // useEffect(() => {
+  //   if (loading) {
+  //     setTimeout(() => {
+  //       setDoneLoading(true);
+  //     }, 500);
+  //   }
+  // }, [loading]);
 
   return (
     <div className="relative w-screen h-screen ">
@@ -53,7 +53,7 @@ function Login() {
           </Button>
         </a>
       </div>
-      {!doneLoading ? (
+      {/* {!doneLoading ? (
         <>
           <div className="w-full h-full flex items-center justify-center flex-col">
             <div>
@@ -87,7 +87,11 @@ function Login() {
             <OrgLogin />
           )}
         </div>
-      )}
+      )} */}
+
+      <div className="w-full h-full pt-20">
+        <OrgLogin />
+      </div>
     </div>
   )
 }

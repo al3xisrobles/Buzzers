@@ -1,6 +1,7 @@
 import Logo from "../../../Assets/Dashboard/LogoYellow.svg"
 import { Authenticator } from '@aws-amplify/ui-react';
 import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useState, useEffect } from 'react';
 
 const components = {
   Header() {
@@ -158,7 +159,23 @@ const formFields = {
   },
 };
 
-function OrgLogin() {
+function BrandLogin() {
+  const { route } = useAuthenticator();
+  const [recordedRoutes, setRecordedRoutes] = useState([]);
+
+  // There's some bug where the page renders the default authenticator component
+  // instead of the one we've defined. The following 2 useEffects is a temporary fix.
+  useEffect(() => {
+    if (recordedRoutes[0] === 'signIn') {
+      window.location.reload();
+    }
+  }, [recordedRoutes]);
+
+  useEffect(() => {
+    setRecordedRoutes(prevRoutes => [...prevRoutes, route]);
+    console.log("Adding route")
+  }, [route]);
+
   return (
     <Authenticator formFields={formFields} components={components} initialState="signUp">
       {({ signOut }) => <button onClick={signOut}>Sign out</button>}
@@ -166,4 +183,4 @@ function OrgLogin() {
   )
 }
 
-export default OrgLogin
+export default BrandLogin
