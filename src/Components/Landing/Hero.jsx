@@ -22,9 +22,9 @@ function Hero() {
               <h3 className="text-carbon text-2xl w-full px-2">Get free products for your events and get paid.</h3>
               <div className='pt-5 flex flex-col justify-center sm:flex-row gap-3 items-center'>
                 <a href="/dashboard" className="hover:opacity-75 transition md:mx-0 w-max rounded-full">
-                  <Button className="text-black shadow-input">Get Started for Free</Button>
+                  <Button className="text-black shadow-input">Sign up</Button>
                 </a>
-                <p>or <a href="/about" className="font-bold hover:opacity-50 transition">learn more</a></p>
+                {/* <p>or <a href="/about" className="font-bold hover:opacity-50 transition">learn more</a></p> */}
               </div>
               <div className='pt-10'>
                 <p>Coming August 2024 for colleges opening week.</p>

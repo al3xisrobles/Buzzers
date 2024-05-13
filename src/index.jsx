@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Pages
 // import Dashboard from './Components/Dashboard/Pages/Dashboard'
 import PageNotFound from './Components/Landing/Pages/PageNotFound'
-import TermsOfService from './Components/Landing/Pages/TermsOfService'
+// import TermsOfService from './Components/Landing/Pages/TermsOfService'
 import PrivacyPolicy from './Components/Landing/Pages/PrivacyPolicy'
 import LoginPage from "./Components/Dashboard/Onboarding/Login"
 import DeploymentSummary from './Components/Dashboard/Pages/DeploymentSummary';
@@ -71,15 +71,15 @@ function PrivacyPolicyPage() {
 }
 
 // Component for the terms of service page
-function TermsOfServicePage() {
-  return (
-    <div>
-      <FixedNavbar />
-      <TermsOfService />
-      <Footer />
-    </div>
-  );
-}
+// function TermsOfServicePage() {
+//   return (
+//     <div>
+//       <FixedNavbar />
+//       <TermsOfService />
+//       <Footer />
+//     </div>
+//   );
+// }
 
 // Component for the terms of service page
 function PageNotFoundPage() {
@@ -181,7 +181,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-            <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+            {/* <Route path="/terms-of-service" element={<TermsOfServicePage />} /> */}
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/checkout" element={<DeploymentSummary />} />
             <Route path="/allset" element={<BrandAllSet />} />

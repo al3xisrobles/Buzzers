@@ -44,7 +44,7 @@ function Login() {
   // }, [loading]);
 
   return (
-    <div className="relative w-screen h-screen ">
+    <div className="bg-salt relative w-screen h-screen ">
       <div className="fixed p-10">
         <a href="/">
           <Button variant="outline">

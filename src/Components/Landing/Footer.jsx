@@ -68,7 +68,7 @@ function Footer() {
           <div className="flex gap-6 justify-center text-sm">
             <p>© 2024 Buzzers, Inc.</p>
             <a href="/privacy-policy" className='transition hover:opacity-75'>Privacy Policy</a>
-            <a href="/terms-of-service" className='transition hover:opacity-75'>Terms of Service</a>
+            {/* <a href="/terms-of-service" className='transition hover:opacity-75'>Terms of Service</a> */}
           </div>
         </div>
       </div>
