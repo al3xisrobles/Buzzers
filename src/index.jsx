@@ -4,7 +4,7 @@ import './index.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Pages
-import Dashboard from './Components/Dashboard/Pages/Dashboard'
+// import Dashboard from './Components/Dashboard/Pages/Dashboard'
 import PageNotFound from './Components/Landing/Pages/PageNotFound'
 import TermsOfService from './Components/Landing/Pages/TermsOfService'
 import PrivacyPolicy from './Components/Landing/Pages/PrivacyPolicy'
