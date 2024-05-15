@@ -171,7 +171,7 @@ const OrgProfile = ({ setSignedUp }) => {
     location: Yup.string().required('Location is required'),
     description: Yup.string()
       .required('Description is required')
-      .max(50, 'Description must be 50 words or less'),
+      .max(250, 'Description must be 50 words or less'),
     adjectives: Yup.array().min(2, 'At least 2 adjectives are required').max(5, 'A maximum of 5 adjectives is allowed'),
     eventTypes: Yup.array().min(2, 'At least 2 event types are required').max(5, 'A maximum of 5 event types is allowed'),
     profilePicture: Yup.mixed().required('A profile picture is required'),
