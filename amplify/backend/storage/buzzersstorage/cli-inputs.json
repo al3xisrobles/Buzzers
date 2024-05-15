@@ -1,0 +1,13 @@
+{
+  "resourceName": "buzzersstorage",
+  "policyUUID": "35e5e644",
+  "bucketName": "buzzersf885942c64974869ba7557effdf360a2",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "groupAccess": {}
+}

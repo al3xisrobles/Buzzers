@@ -1,19 +1,49 @@
 {
-  "dev": {
+  "main": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-buzzers-dev-d665f-authRole",
-      "UnauthRoleArn": "arn:aws:iam::381492035884:role/amplify-buzzers-dev-d665f-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::381492035884:role/amplify-buzzers-dev-d665f-authRole",
+      "AuthRoleName": "amplify-buzzers-main-91127-authRole",
+      "UnauthRoleArn": "arn:aws:iam::381492035884:role/amplify-buzzers-main-91127-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::381492035884:role/amplify-buzzers-main-91127-authRole",
       "Region": "us-east-2",
-      "DeploymentBucketName": "amplify-buzzers-dev-d665f-deployment",
-      "UnauthRoleName": "amplify-buzzers-dev-d665f-unauthRole",
-      "StackName": "amplify-buzzers-dev-d665f",
-      "StackId": "arn:aws:cloudformation:us-east-2:381492035884:stack/amplify-buzzers-dev-d665f/210d78e0-1158-11ef-95d7-0ab66a9c1fdd",
+      "DeploymentBucketName": "amplify-buzzers-main-91127-deployment",
+      "UnauthRoleName": "amplify-buzzers-main-91127-unauthRole",
+      "StackName": "amplify-buzzers-main-91127",
+      "StackId": "arn:aws:cloudformation:us-east-2:381492035884:stack/amplify-buzzers-main-91127/275750d0-1159-11ef-8cbc-0245083fd06b",
       "AmplifyAppId": "dib88x9tqwc83"
     },
     "categories": {
       "auth": {
         "buzzers87fdaf17": {}
+      },
+      "api": {
+        "buzzers": {}
+      },
+      "storage": {
+        "buzzersstorage": {}
+      }
+    }
+  },
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-buzzers-dev-52b9d-authRole",
+      "UnauthRoleArn": "arn:aws:iam::381492035884:role/amplify-buzzers-dev-52b9d-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::381492035884:role/amplify-buzzers-dev-52b9d-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-buzzers-dev-52b9d-deployment",
+      "UnauthRoleName": "amplify-buzzers-dev-52b9d-unauthRole",
+      "StackName": "amplify-buzzers-dev-52b9d",
+      "StackId": "arn:aws:cloudformation:us-east-2:381492035884:stack/amplify-buzzers-dev-52b9d/87d63920-1164-11ef-8996-0629386e5b7b",
+      "AmplifyAppId": "dib88x9tqwc83"
+    },
+    "categories": {
+      "auth": {
+        "buzzers87fdaf17": {}
+      },
+      "api": {
+        "buzzers": {}
+      },
+      "storage": {
+        "buzzersstorage": {}
       }
     }
   }

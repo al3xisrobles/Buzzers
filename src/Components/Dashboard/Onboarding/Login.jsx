@@ -47,7 +47,7 @@ function Login() {
     <div className="bg-salt relative w-screen h-screen ">
       <div className="fixed p-10">
         <a href="/">
-          <Button variant="outline">
+          <Button className="bg-salt" variant="outline">
             <ChevronLeft/>
             Home
           </Button>

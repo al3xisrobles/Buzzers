@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "buzzers",
+    "serviceName": "AppSync",
+    "defaultAuthType": {
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authbuzzers87fdaf17"
+    },
+    "conflictResolution": {},
+    "additionalAuthTypes": []
+  }
+}

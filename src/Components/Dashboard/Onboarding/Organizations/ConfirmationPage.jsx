@@ -1,25 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Logo from "../../../../Assets/Dashboard/LogoYellow.svg";
 import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useAuth } from "../../Auth/AuthContext"
 // import {
 //   Instagram,
 // } from "lucide-react";
 // import Facebook from "../../../../Assets/Icons/facebook.svg";
 // import LinkedIn from "../../../../Assets/Icons/linkedin.svg";
 
-
 function ConfirmationPage() {
-  const [orgName] = useState('Tavern');
+  const [orgName, setOrgName] = useState('');
   const { signOut } = useAuthenticator((context) => [context.user]);
+  const { userAttributes } = useAuth();
+
+  useEffect(() => {
+    setOrgName(userAttributes['custom:org_name']);
+  }, [userAttributes]);
 
   return (
     <div className='bg-salt relative w-screen h-screen'>
-      <div className="max-w-[30rem] mx-auto h-full flex items-center justify-center flex-col gap-8">
+      <div className="max-w-[35rem] px-2 mx-auto h-full flex items-center justify-center flex-col gap-8">
         <img src={Logo} className="w-20" alt="Buzzers" />
         <div className='flex flex-col items-center text-center'>
-          <h1 className="font-bold text-3xl p-2">Welcome to Buzzers, {orgName}.</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+          {orgName === '' ? (
+            <h1 className="font-bold text-3xl p-2">Welcome to Buzzers!</h1>
+          ) : (
+            <h1 className="font-bold text-3xl p-2">Welcome to Buzzers, {orgName}!</h1>
+          )}
+          <p>Thanks for joining early - we will let you know when we launch this August, and get your organization sponsored first.</p>
+          <h3 className="pt-4 font-bold">Have friends in other organizations?</h3>
+          <p>Refer them to Buzzers before we launch and get paid when they secure their first sponsorship!</p>
         </div>
         <a href="/" className="w-3/4">
           <Button className="shadow-input w-full">

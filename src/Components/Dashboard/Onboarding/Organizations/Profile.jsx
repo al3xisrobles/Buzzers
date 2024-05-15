@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import toast from 'react-hot-toast';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import imageCompression from 'browser-image-compression';
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,6 +18,9 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import OrgSupplementalPage from "./SupplementalPage";
 
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { uploadImageToStorage } from "../../../../AWS/api";
+
 const OrgProfile = ({ setSignedUp }) => {
   const [orgRepName] = useState("Dan");
   const [orgName] = useState("Buzzers");
@@ -24,30 +28,36 @@ const OrgProfile = ({ setSignedUp }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [adjectives, setAdjectives] = useState(new Set());
   const [currAdj, setCurrAdj] = useState("");
-  const [genderPercentage, setGenderPercentage] = useState(50);
+  const [ageRange, setAgeRange] = useState([18, 65]);
+  const [percentMale, setPercentMale] = useState(50);
   const [eventTypes, setEventTypes] = useState(new Set());
   const [currEventType, setCurrEventType] = useState("");
-  const [submitting, setSubmitting] = useState(false);
   const [page, setPage] = useState(1);
   const [orgType, setOrgType] = useState("");
+  const [formData, setFormData] = useState({});
+  const { user } = useAuthenticator((context) => [context.user]);
 
-  useEffect(() => {
-    if (submitting) {
-      setTimeout(() => {
-        setPage(2);
-        scrollTo(0, 0);
-        setSubmitting(false);
-      }, 1000);
-    }
-  }, [submitting]);
-
-  const handleImageUpload = (file) => {
+  const handleImageUpload = async (file) => {
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+      try {
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1920,
+          useWebWorker: true,
+        };
+
+        toast.success("Uploading image...");
+
+        const compressedFile = await imageCompression(file, options);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImage(reader.result);
+        };
+        reader.readAsDataURL(compressedFile);
+      } catch (error) {
+        console.error("Error compressing file:", error);
+        toast.error("Failed to compress image. Please try again.");
+      }
     }
   };
 
@@ -169,9 +179,9 @@ const OrgProfile = ({ setSignedUp }) => {
 
   return (
     <div className="bg-salt">
-      <div className="fixed p-10">
+      <div className="fixed pl-4 pt-10 sm:px-10">
         <a href="/">
-          <Button variant="outline">
+          <Button className="bg-salt" variant="outline">
             <ChevronLeft />
             Home
           </Button>
@@ -181,7 +191,7 @@ const OrgProfile = ({ setSignedUp }) => {
       {page === 1 && (
         <div className="w-full flex flex-col gap-6 items-center justify-center py-20">
           <img src={Logo} className="w-20" alt="Buzzers" />
-          <div className="flex flex-col items-center pb-10">
+          <div className="flex flex-col items-center text-center pb-10">
             <h1 className="font-bold text-2xl p-2">Nice to meet you, {orgRepName}.</h1>
             <p>Let&apos;s make a profile for brands to learn about <span className="font-bold">{orgName}</span>!</p>
           </div>
@@ -196,17 +206,27 @@ const OrgProfile = ({ setSignedUp }) => {
               profilePicture: image,
             }}
             validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting }) => {
-              console.log(values);
-              setSubmitting(true);
-              setTimeout(() => {
-                setPage(2);
-                setSubmitting(false);
-              }, 1000);
+            onSubmit={async (values) => {
+              // Upload image to storage
+              try {
+                const imagePath = await uploadImageToStorage(values.profilePicture, user.userId, "org-logos");
+                values.profilePicture = imagePath;
+              } catch (e) {
+                toast.error("Failed to upload image. Please try again.");
+                return;
+              }
+
+              // Set form data to pass onto the second page
+              const valuesWithSliderData = { ...values, ageRange, percentMale };
+              setFormData(valuesWithSliderData);
+              console.log(valuesWithSliderData);
+
+              setPage(2);
+              scrollTo(0, 0);
             }}
           >
             {({ isSubmitting, setFieldValue, isValid }) => (
-              <Form className="w-[32rem] flex flex-col gap-10 items-center justify-center">
+              <Form className="max-w-[32rem] px-2 flex flex-col gap-10 items-center justify-center">
                 {/* Image upload */}
                 <div className='w-full flex flex-col gap-3'>
                   <p>Upload your organization&apos;s <span className="font-bold">logo</span> or a preferred <span className="font-bold">profile picture</span></p>
@@ -354,16 +374,16 @@ const OrgProfile = ({ setSignedUp }) => {
                 {/* Age Range */}
                 <div className="w-full flex flex-col gap-3 pb-4">
                   <p>What is the <span className="font-bold">age range</span> of the members of your organization?</p>
-                  <RangeSlider showValues defaultValue={[18, 65]} />
+                  <RangeSlider showValues value={ageRange} onValueChange={setAgeRange} />
                 </div>
 
                 {/* Gender composition */}
                 <div className="w-full flex flex-col gap-3">
                   <p>What is the <span className="font-bold">gender composition</span> of your organization?</p>
-                  <Slider defaultValue={[50]} max={100} step={1} onValueChange={(value) => setGenderPercentage(value)} />
+                  <Slider defaultValue={[percentMale]} max={100} step={1} onValueChange={(value) => setPercentMale(value)} />
                   <div className="flex flex-row items-center justify-between">
                     <p>Male</p>
-                    <p>{genderPercentage}%</p>
+                    <p>{percentMale}%</p>
                     <p>Female</p>
                   </div>
                 </div>
@@ -430,7 +450,7 @@ const OrgProfile = ({ setSignedUp }) => {
       )}
 
       {page === 2 && (
-        <OrgSupplementalPage setSignedUp={setSignedUp} orgName={orgName} />
+        <OrgSupplementalPage setSignedUp={setSignedUp} orgName={orgName} formData={formData} />
       )}
     </div>
   );

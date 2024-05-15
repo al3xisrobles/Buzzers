@@ -3,17 +3,25 @@ import Logo from "../../../../Assets/Dashboard/LogoYellow.svg";
 import {
   ArrowUpToLine,
   LoaderCircle,
+  Globe,
   Instagram,
   Facebook,
-  Globe,
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import imageCompression from 'browser-image-compression';
 
-function SupplementalPage({ setSignedUp, orgName }) {
+import { createOrgSubmission } from "../../../../AWS/graphql/mutations";
+
+import { submitToAPI, uploadImageToStorage } from "../../../../AWS/api";
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import toast from 'react-hot-toast';
+
+
+function SupplementalPage({ setSignedUp, orgName, formData }) {
   const [images, setImages] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -22,15 +30,8 @@ function SupplementalPage({ setSignedUp, orgName }) {
   const [instagram, setInstagram] = useState('');
   const [facebook, setFacebook] = useState('');
   const [website, setWebsite] = useState('');
-
-  useEffect(() => {
-    if (submitting) {
-      setTimeout(() => {
-        setSubmitting(false);
-        setSubmitted(true);
-      }, 1000);
-    }
-  }, [submitting]);
+  const [formValues] = useState(formData);
+  const { user } = useAuthenticator((context) => [context.user]);
 
   useEffect(() => {
     if (submitted) {
@@ -38,14 +39,35 @@ function SupplementalPage({ setSignedUp, orgName }) {
     }
   }, [submitted]);
 
-  const handleImageUpload = (files) => {
-    Array.from(files).forEach(file => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setImages(prevImages => [...prevImages, reader.result]);
-      };
-    });
+  const handleImageUpload = async (files) => {
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
+
+    toast.success("Uploading image(s)...");
+
+    const compressedImages = await Promise.all(
+      Array.from(files).map(async (file) => {
+        try {
+          const compressedFile = await imageCompression(file, options);
+          const reader = new FileReader();
+          reader.readAsDataURL(compressedFile);
+          return new Promise((resolve) => {
+            reader.onloadend = () => {
+              resolve({ file: compressedFile, url: reader.result });
+            };
+          });
+        } catch (error) {
+          console.error("Error compressing file:", error);
+          toast.error("Failed to compress image. Please try again.");
+          return null;
+        }
+      })
+    );
+
+    setImages((prevImages) => [...prevImages, ...compressedImages.filter(Boolean)]);
   };
 
   const handleClick = () => {
@@ -94,22 +116,58 @@ function SupplementalPage({ setSignedUp, orgName }) {
     setImages(prevImages => prevImages.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Form data:', { frequency, instagram, facebook, website });
-    console.log('Uploaded images:', images);
     setSubmitting(true);
+
+    try {
+      // Upload images
+      const imagePaths = [];
+      for (let i = 0; i < images.length; i++) {
+        try {
+          const imageName = await uploadImageToStorage(images[i].file, user.userId, "event-photos");
+          imagePaths.push(imageName);
+          console.log(`${i + 1}/${images.length} uploaded`);
+        } catch (error) {
+          console.error(`Failed to upload image ${i + 1}/${images.length}`, error);
+          toast.error("Failed to upload images. Please try again.");
+          setSubmitting(false);
+          return;
+        }
+      }
+
+      const orgSubmissionSupplemental = {
+        eventPictures: imagePaths,
+        frequency,
+        instagram,
+        facebook,
+        website
+      };
+
+      // Union both form dictionaries
+      const totalFormSubmission = { ...formValues, ...orgSubmissionSupplemental };
+
+      console.log("Submitting to API:", totalFormSubmission);
+      await submitToAPI(totalFormSubmission, createOrgSubmission);
+
+      setSubmitted(true);
+      setSubmitting(false);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to upload images or submit data. Please try again.");
+      setSubmitting(false);
+    }
   };
 
   return (
     <div className="bg-salt w-full flex flex-col gap-6 items-center justify-center py-20">
       <img src={Logo} className="w-20" alt="Buzzers" />
-      <div className="flex flex-col items-center pb-10">
+      <div className="flex flex-col text-center items-center pb-10">
         <h1 className="font-bold text-2xl p-2">{orgName}&apos;s profile is almost ready</h1>
         <p>These fields are optional, but they will increase your appeal to brands.</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="w-[32rem] flex flex-col gap-10 items-center justify-center">
+      <form onSubmit={handleSubmit} className="max-w-[32rem] px-2 flex flex-col gap-10 items-center justify-center">
         {/* Image upload */}
         <div className='w-full flex flex-col gap-3'>
           <div>
@@ -124,7 +182,7 @@ function SupplementalPage({ setSignedUp, orgName }) {
           >
             {images.map((img, index) => (
               <div key={index} className="relative w-full h-32">
-                <img src={img} alt={`Uploaded ${index}`} className="w-full h-full rounded-lg object-cover" />
+                <img src={img.url} alt={`Uploaded ${index}`} className="w-full h-full rounded-lg object-cover" />
                 <button
                   type="button"
                   className="absolute top-1 right-1 bg-white rounded-full p-1"
@@ -188,14 +246,14 @@ function SupplementalPage({ setSignedUp, orgName }) {
           />
           <Input
             icon={Facebook}
-            placeholder="www.tiktok.com/buzzers"
+            placeholder="www.facebook.com/buzzers"
             className="shadow-input border-none"
             value={facebook}
             onChange={(e) => setFacebook(e.target.value)}
           />
           <Input
             icon={Globe}
-            placeholder="www.instagram.com/buzzers"
+            placeholder="www.buzzers.com"
             className="shadow-input border-none"
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
@@ -214,7 +272,7 @@ function SupplementalPage({ setSignedUp, orgName }) {
         </Button>
       </form>
     </div>
-  )
+  );
 }
 
 export default SupplementalPage;

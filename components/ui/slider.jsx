@@ -30,7 +30,7 @@ const Slider = React.forwardRef(({ className, min = 0, max = 100, defaultValue =
           <SliderPrimitive.Range className="absolute h-full bg-obsidian" />
         </SliderPrimitive.Track>
         <SliderPrimitive.Thumb
-          className="cursor-pointer block h-6 w-6 rounded-full border-2 border-obsidian bg-background ring-offset-background transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
+          className="cursor-pointer block h-6 w-6 rounded-full border-2 border-obsidian bg-salt ring-offset-background transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
         >
           {props.showValue &&
             <div className="absolute top-8 left-1/2 transform -translate-x-1/2 text-xs">

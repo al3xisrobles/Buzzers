@@ -19,16 +19,16 @@ function Hero() {
           <div className="w-full text-center my-10 md:my-0">
             <div className="text-carbon flex justify-center flex-col gap-4 mx-auto">
               <h1 className="text-4xl md:text-6xl w-full font-bold px-2">Event sponsorship, <span className="text-primary">reimagined</span></h1>
-              <h3 className="text-carbon text-2xl w-full px-2">Get free products for your events and get paid.</h3>
-              <div className='pt-5 flex flex-col justify-center sm:flex-row gap-3 items-center'>
-                <a href="/dashboard" className="hover:opacity-75 transition md:mx-0 w-max rounded-full">
-                  <Button className="text-black text-lg px-6 py-6 shadow-input">Sign up for early access</Button>
-                </a>
-                {/* <p>or <a href="/about" className="font-bold hover:opacity-50 transition">learn more</a></p> */}
-              </div>
-              <div className='pt-10'>
+              <h3 className="text-carbon text-2xl w-full px-2">Get free products for your organization and get paid.</h3>
+              <div className='py-2'>
                 <p>Coming August 2024 for colleges opening week.</p>
                 <p>Sign up before launch and be the first to get your event sponsored.</p>
+              </div>
+              <div className='pt-5 flex flex-col justify-center sm:flex-row gap-3 items-center'>
+                <a href="/dashboard" className="hover:opacity-75 transition md:mx-0 w-max rounded-full">
+                  <Button className="font-normal text-black text-lg px-6 py-6 shadow-input">Sign up for early access</Button>
+                </a>
+                {/* <p>or <a href="/about" className="font-bold hover:opacity-50 transition">learn more</a></p> */}
               </div>
             </div>
           </div>
