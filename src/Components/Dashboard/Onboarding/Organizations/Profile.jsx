@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Logo from "../../../../Assets/Dashboard/LogoYellow.svg";
-import { ChevronLeft, ChevronsUpDown, Check, ArrowUpToLine, X, LoaderCircle } from "lucide-react";
+import { ChevronLeft, ArrowUpToLine, X, LoaderCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import toast from 'react-hot-toast';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
@@ -139,7 +139,7 @@ const OrgProfile = ({ setSignedUp }) => {
   };
 
   const isValidInput = (input) => {
-    const regex = /^[a-zA-Z-]+$/;
+    const regex = /^[a-zA-Z- ]+$/;
     return regex.test(input);
   };
 
@@ -152,7 +152,7 @@ const OrgProfile = ({ setSignedUp }) => {
       });
       setCurrAdj("");
     } else if (!isValidInput(adjective)) {
-      toast.error("Adjectives should only contain letters.");
+      toast.error("Adjectives should only contain letters, hyphens, and spaces.");
     }
   };
 
@@ -183,13 +183,13 @@ const OrgProfile = ({ setSignedUp }) => {
       });
       setCurrEventType("");
     } else if (!isValidInput(eventType)) {
-      toast.error("Event types should only contain letters.");
+      toast.error("Event types should only contain letters, hyphens, and spaces.");
     }
   };
 
   const handleEventTypeKeyPress = (event, setFieldValue) => {
     if (event.key === "Enter") {
-      const eventType = event.target.value.trim();
+      const eventType = event.target.value.trim().toLowerCase();
       addEventType(eventType, setFieldValue);
       handleFormChange();
     }
@@ -198,7 +198,7 @@ const OrgProfile = ({ setSignedUp }) => {
   const handleEventTypeDelete = (eventType, setFieldValue) => {
     setEventTypes((prevEventTypes) => {
       const newEventTypes = new Set(prevEventTypes);
-      newEventTypes.delete(eventType);
+      newEventTypes.delete(eventType.toLowerCase());
       setFieldValue('eventTypes', Array.from(newEventTypes));
       return newEventTypes;
     });
@@ -261,6 +261,9 @@ const OrgProfile = ({ setSignedUp }) => {
                 toast.error("Failed to upload image. Please try again.");
                 return;
               }
+
+              // Get complement
+              values.percentMale = 100 - percentMale;
 
               // Set form data to pass onto the second page
               const valuesWithSliderData = { ...values, ageRange, percentMale };
@@ -328,7 +331,8 @@ const OrgProfile = ({ setSignedUp }) => {
                       setIsOtherOrgType(true);
                       setIsCollegiateOrgType(false);
                       setFieldValue('showUniversity', false);
-                    } else if (value === "fraternity/sorority" || value === "social_club" || value === "student_philo" || value === "student_athletic" || value === "student_academic" || value === "student_political") {
+                    } else if (value === "fraternity" || value === "sorority" || value === "professional_club" || value === "social_club" || value === "student_philo" || value === "student_athletic" || value === "student_academic" || value === "student_political") {
+                      setFieldValue('orgType', value);
                       setIsCollegiateOrgType(true);
                       setIsOtherOrgType(false);
                       setFieldValue('showUniversity', true);
@@ -338,7 +342,7 @@ const OrgProfile = ({ setSignedUp }) => {
                       setIsCollegiateOrgType(false);
                       setFieldValue('showUniversity', false);
                     }
-                  }}>
+                    }}>
                     <SelectTrigger className="w-full shadow-input border-none">
                       <SelectValue placeholder="Organization type" />
                     </SelectTrigger>
@@ -347,7 +351,9 @@ const OrgProfile = ({ setSignedUp }) => {
                         <SelectLabel>
                           College/University
                         </SelectLabel>
-                        <SelectItem className="cursor-pointer" value="fraternity/sorority">Fraternity/Sorority</SelectItem>
+                        <SelectItem className="cursor-pointer" value="fraternity">Fraternity</SelectItem>
+                        <SelectItem className="cursor-pointer" value="sorority">Sorority</SelectItem>
+                        <SelectItem className="cursor-pointer" value="professional_club">Professional Club</SelectItem>
                         <SelectItem className="cursor-pointer" value="social_club">Social Club</SelectItem>
                         <SelectItem className="cursor-pointer" value="student_philo">Student Philanthropy Group</SelectItem>
                         <SelectItem className="cursor-pointer" value="student_athletic">Student Athletic Group</SelectItem>
@@ -376,29 +382,29 @@ const OrgProfile = ({ setSignedUp }) => {
                       <Separator className="my-2"/>
                       <SelectItem className="cursor-pointer" value="other">Other</SelectItem>
                     </SelectContent>
-                  </Select>
-                  {orgType !== "other" || orgType !== "fraternity/sorority" || orgType !== "social_club" || orgType !== "student_philo" || orgType !== "student_athletic" || orgType !== "student_academic" || orgType !== "student_political" &&
+                    </Select>
+                    {orgType !== "other" && orgType !== "professional_club" && orgType !== "fraternity" && orgType !== "sorority" && orgType !== "social_club" && orgType !== "student_philo" && orgType !== "student_athletic" && orgType !== "student_academic" && orgType !== "student_political" &&
                     <ErrorMessage name="orgType" component="div" className="text-red-500" />
-                  }
-                </div>
+                    }
+                    </div>
 
-                {isOtherOrgType && (
-                  <div className="w-full flex flex-col gap-3">
+                    {isOtherOrgType && (
+                    <div className="w-full flex flex-col gap-3">
                     <p>What type of organization are you?</p>
                     <Field name="orgType" as={Input} placeholder="Enter your organization type here" className="shadow-input border-none" />
                     <ErrorMessage name="orgType" component="div" className="text-red-500" />
-                  </div>
-                )}
+                    </div>
+                    )}
 
-                {isCollegiateOrgType && (
-                  <div className="w-full flex flex-col gap-3">
+                    {isCollegiateOrgType && (
+                    <div className="w-full flex flex-col gap-3">
                     <p>What university?</p>
                     <Field name="university" as={Input} placeholder="Northwestern University" className="shadow-input border-none" />
                     <ErrorMessage name="university" component="div" className="text-red-500" />
-                  </div>
-                )}
+                    </div>
+                    )}
 
-                {/* Location */}
+                    {/* Location */}
                 <div className="w-full flex flex-col gap-3">
                   <div>
                     <p>City of your organization</p>
@@ -477,11 +483,11 @@ const OrgProfile = ({ setSignedUp }) => {
                   <div className="flex flex-row items-center justify-between">
                     <div className="flex flex-col text-sm">
                       <p>Male</p>
-                      <p>{percentMale}%</p>
+                      <p>{100 - percentMale}%</p>
                     </div>
                     <div className="flex flex-col text-sm">
                       <p>Female</p>
-                      <p>{100 - percentMale}%</p>
+                      <p>{percentMale}%</p>
                     </div>
                   </div>
                 </div>

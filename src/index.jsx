@@ -4,6 +4,7 @@ import './index.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Pages
+import About from './Components/Landing/Pages/About';
 // import Dashboard from './Components/Dashboard/Pages/Dashboard'
 import PageNotFound from './Components/Landing/Pages/PageNotFound'
 // import TermsOfService from './Components/Landing/Pages/TermsOfService'
@@ -56,6 +57,16 @@ function HomePage() {
     <div>
       <Hero />
       <Footer />
+    </div>
+  );
+}
+
+// Component for the about page
+function AboutPage() {
+  return (
+    <div>
+      <FixedNavbar />
+      <About />
     </div>
   );
 }
@@ -200,6 +211,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <UserProvider>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             {/* <Route path="/terms-of-service" element={<TermsOfServicePage />} /> */}
             <Route path="/dashboard" element={<DashboardPage />} />
