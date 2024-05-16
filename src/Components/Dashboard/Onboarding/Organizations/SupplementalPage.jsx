@@ -176,7 +176,7 @@ function SupplementalPage({ setSignedUp, orgName, formData }) {
       <img src={Logo} className="w-20" alt="Buzzers" />
       <div className="flex flex-col text-center items-center pb-10">
         <h1 className="font-bold text-2xl p-2">{orgName}&apos;s profile is almost ready</h1>
-        <p>These fields are optional, but they will increase your appeal to brands.</p>
+        <p>These fields are optional and will increase your appeal to brands. You can always edit your profile later.</p>
       </div>
 
       <form onSubmit={handleSubmit} className="max-w-[32rem] px-2 flex flex-col gap-10 items-center justify-center">
