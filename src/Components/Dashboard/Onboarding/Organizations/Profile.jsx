@@ -214,6 +214,11 @@ const OrgProfile = ({ setSignedUp }) => {
     adjectives: Yup.array().min(2, 'At least 2 adjectives are required').max(5, 'A maximum of 5 adjectives is allowed'),
     eventTypes: Yup.array().min(2, 'At least 2 event types are required').max(5, 'A maximum of 5 event types is allowed'),
     profilePicture: Yup.mixed().required('A profile picture is required'),
+    showOtherOrg: Yup.boolean(),
+    otherOrgType: Yup.string().when('showOtherOrg', {
+      is: true,
+      then: () => Yup.string().required('Organization type is required')
+    }),
     showUniversity: Yup.boolean(),
     university: Yup.string().when('showUniversity', {
       is: true,
@@ -241,12 +246,15 @@ const OrgProfile = ({ setSignedUp }) => {
           </div>
 
           <Formik
+            validate={(values) => console.log("FORM VALUES:", values)}
             initialValues={{
               orgType: '',
               location: '',
               description: '',
               adjectives: Array.from(adjectives),
               eventTypes: Array.from(eventTypes),
+              showOtherOrg: false,
+              otherOrgType: '',
               showUniversity: false,
               university: '',
               profilePicture: image,
@@ -264,6 +272,14 @@ const OrgProfile = ({ setSignedUp }) => {
 
               // Get complement
               values.percentMale = 100 - percentMale;
+
+              // If other org type is selected, set org type to other
+              if (values.showOtherOrg) {
+                values.orgType = values.otherOrgType;
+              }
+
+              delete values.otherOrgType;
+              delete values.showOtherOrg;
 
               // Set form data to pass onto the second page
               const valuesWithSliderData = { ...values, ageRange, percentMale };
@@ -327,22 +343,24 @@ const OrgProfile = ({ setSignedUp }) => {
                   <Select onValueChange={(value) => {
                     setOrgType(value);
                     handleFormChange();
+                    setFieldValue('orgType', value);
                     if (value === "other") {
                       setIsOtherOrgType(true);
                       setIsCollegiateOrgType(false);
                       setFieldValue('showUniversity', false);
+                      setFieldValue('showOtherOrg', true);
                     } else if (value === "fraternity" || value === "sorority" || value === "professional_club" || value === "social_club" || value === "student_philo" || value === "student_athletic" || value === "student_academic" || value === "student_political") {
-                      setFieldValue('orgType', value);
                       setIsCollegiateOrgType(true);
                       setIsOtherOrgType(false);
                       setFieldValue('showUniversity', true);
+                      setFieldValue('showOtherOrg', false);
                     } else {
-                      setFieldValue('orgType', value);
                       setIsOtherOrgType(false);
                       setIsCollegiateOrgType(false);
                       setFieldValue('showUniversity', false);
+                      setFieldValue('showOtherOrg', false);
                     }
-                    }}>
+                  }}>
                     <SelectTrigger className="w-full shadow-input border-none">
                       <SelectValue placeholder="Organization type" />
                     </SelectTrigger>
@@ -384,27 +402,27 @@ const OrgProfile = ({ setSignedUp }) => {
                     </SelectContent>
                     </Select>
                     {orgType !== "other" && orgType !== "professional_club" && orgType !== "fraternity" && orgType !== "sorority" && orgType !== "social_club" && orgType !== "student_philo" && orgType !== "student_athletic" && orgType !== "student_academic" && orgType !== "student_political" &&
-                    <ErrorMessage name="orgType" component="div" className="text-red-500" />
+                      <ErrorMessage name="orgType" component="div" className="text-red-500" />
                     }
                     </div>
 
                     {isOtherOrgType && (
-                    <div className="w-full flex flex-col gap-3">
-                    <p>What type of organization are you?</p>
-                    <Field name="orgType" as={Input} placeholder="Enter your organization type here" className="shadow-input border-none" />
-                    <ErrorMessage name="orgType" component="div" className="text-red-500" />
-                    </div>
+                      <div className="w-full flex flex-col gap-3">
+                        <p>What type of organization are you?</p>
+                        <Field name="otherOrgType" as={Input} placeholder="Enter your organization type here" className="shadow-input border-none" />
+                        <ErrorMessage name="otherOrgType" component="div" className="text-red-500" />
+                      </div>
                     )}
 
                     {isCollegiateOrgType && (
-                    <div className="w-full flex flex-col gap-3">
-                    <p>What university?</p>
-                    <Field name="university" as={Input} placeholder="Northwestern University" className="shadow-input border-none" />
-                    <ErrorMessage name="university" component="div" className="text-red-500" />
-                    </div>
+                      <div className="w-full flex flex-col gap-3">
+                        <p>What university?</p>
+                        <Field name="university" as={Input} placeholder="Northwestern University" className="shadow-input border-none" />
+                        <ErrorMessage name="university" component="div" className="text-red-500" />
+                      </div>
                     )}
 
-                    {/* Location */}
+                {/* Location */}
                 <div className="w-full flex flex-col gap-3">
                   <div>
                     <p>City of your organization</p>
