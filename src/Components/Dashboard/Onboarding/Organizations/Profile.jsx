@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Logo from "../../../../Assets/Dashboard/LogoYellow.svg";
-import { ChevronLeft, ArrowUpToLine, X, LoaderCircle } from "lucide-react";
+import { ChevronLeft, ChevronsUpDown, Check, ArrowUpToLine, X, LoaderCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import toast from 'react-hot-toast';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
@@ -15,16 +15,21 @@ import { Slider } from "@/components/ui/slider";
 import { RangeSlider } from "@/components/ui/rangeslider";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { GMapsAddressInput } from "@/components/ui/gmapsaddressinput"; // Adjust import path accordingly
+import { Select, SelectGroup, SelectLabel, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import OrgSupplementalPage from "./SupplementalPage";
 
 import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useAuth } from "../../Auth/AuthContext";
 import { uploadImageToStorage } from "../../../../AWS/api";
 
 const OrgProfile = ({ setSignedUp }) => {
-  const [orgRepName] = useState("Dan");
-  const [orgName] = useState("Buzzers");
+  const [page, setPage] = useState(1);
+  const [orgRepName, setRepName] = useState("");
+  const [orgName, setOrgName] = useState("");
   const [image, setImage] = useState(null);
+
   const [isDragging, setIsDragging] = useState(false);
   const [adjectives, setAdjectives] = useState(new Set());
   const [currAdj, setCurrAdj] = useState("");
@@ -32,10 +37,21 @@ const OrgProfile = ({ setSignedUp }) => {
   const [percentMale, setPercentMale] = useState(50);
   const [eventTypes, setEventTypes] = useState(new Set());
   const [currEventType, setCurrEventType] = useState("");
-  const [page, setPage] = useState(1);
+  const [lenDesc, setLenDesc] = useState(0);
   const [orgType, setOrgType] = useState("");
+  const [isOtherOrgType, setIsOtherOrgType] = useState(false);
+  const [isCollegiateOrgType, setIsCollegiateOrgType] = useState(false);
   const [formData, setFormData] = useState({});
   const { user } = useAuthenticator((context) => [context.user]);
+  const { userAttributes } = useAuth();
+  const hasUnsavedChanges = useRef(false);
+
+  useEffect(() => {
+    if (Object.keys(userAttributes).length !== 0) {
+      setRepName(userAttributes["custom:first_name"]);
+      setOrgName(userAttributes["custom:org_name"]);
+    }
+  }, [userAttributes]);
 
   const handleImageUpload = async (file) => {
     if (file) {
@@ -103,8 +119,27 @@ const OrgProfile = ({ setSignedUp }) => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (hasUnsavedChanges.current) {
+        e.preventDefault();
+        e.returnValue = ''; // Display the confirmation dialog
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
+  const handleFormChange = () => {
+    hasUnsavedChanges.current = true;
+  };
+
   const isValidInput = (input) => {
-    const regex = /^[a-zA-Z]+$/;
+    const regex = /^[a-zA-Z-]+$/;
     return regex.test(input);
   };
 
@@ -125,6 +160,7 @@ const OrgProfile = ({ setSignedUp }) => {
     if (event.key === "Enter") {
       const adjective = event.target.value.trim();
       addAdjective(adjective, setFieldValue);
+      handleFormChange();
     }
   };
 
@@ -135,6 +171,7 @@ const OrgProfile = ({ setSignedUp }) => {
       setFieldValue('adjectives', Array.from(newAdjectives));
       return newAdjectives;
     });
+    handleFormChange();
   };
 
   const addEventType = (eventType, setFieldValue) => {
@@ -154,6 +191,7 @@ const OrgProfile = ({ setSignedUp }) => {
     if (event.key === "Enter") {
       const eventType = event.target.value.trim();
       addEventType(eventType, setFieldValue);
+      handleFormChange();
     }
   };
 
@@ -164,6 +202,7 @@ const OrgProfile = ({ setSignedUp }) => {
       setFieldValue('eventTypes', Array.from(newEventTypes));
       return newEventTypes;
     });
+    handleFormChange();
   };
 
   const validationSchema = Yup.object({
@@ -171,10 +210,15 @@ const OrgProfile = ({ setSignedUp }) => {
     location: Yup.string().required('Location is required'),
     description: Yup.string()
       .required('Description is required')
-      .max(250, 'Description must be 50 words or less'),
+      .max(250, 'Description must be 250 characters or less'),
     adjectives: Yup.array().min(2, 'At least 2 adjectives are required').max(5, 'A maximum of 5 adjectives is allowed'),
     eventTypes: Yup.array().min(2, 'At least 2 event types are required').max(5, 'A maximum of 5 event types is allowed'),
     profilePicture: Yup.mixed().required('A profile picture is required'),
+    showUniversity: Yup.boolean(),
+    university: Yup.string().when('showUniversity', {
+      is: true,
+      then: () => Yup.string().required('University is required')
+    })
   });
 
   return (
@@ -203,6 +247,8 @@ const OrgProfile = ({ setSignedUp }) => {
               description: '',
               adjectives: Array.from(adjectives),
               eventTypes: Array.from(eventTypes),
+              showUniversity: false,
+              university: '',
               profilePicture: image,
             }}
             validationSchema={validationSchema}
@@ -223,10 +269,14 @@ const OrgProfile = ({ setSignedUp }) => {
 
               setPage(2);
               scrollTo(0, 0);
+              hasUnsavedChanges.current = false;
             }}
           >
             {({ isSubmitting, setFieldValue, isValid }) => (
-              <Form className="max-w-[32rem] px-2 flex flex-col gap-10 items-center justify-center">
+              <Form
+                className="max-w-[32rem] px-2 flex flex-col gap-10 items-center justify-center"
+                onChange={handleFormChange}
+              >
                 {/* Image upload */}
                 <div className='w-full flex flex-col gap-3'>
                   <p>Upload your organization&apos;s <span className="font-bold">logo</span> or a preferred <span className="font-bold">profile picture</span></p>
@@ -273,40 +323,66 @@ const OrgProfile = ({ setSignedUp }) => {
                   <p>Select organization type</p>
                   <Select onValueChange={(value) => {
                     setOrgType(value);
-                    setFieldValue('orgType', value);
+                    handleFormChange();
+                    if (value === "other") {
+                      setIsOtherOrgType(true);
+                      setIsCollegiateOrgType(false);
+                      setFieldValue('showUniversity', false);
+                    } else if (value === "fraternity/sorority" || value === "social_club" || value === "student_philo" || value === "student_athletic" || value === "student_academic" || value === "student_political") {
+                      setIsCollegiateOrgType(true);
+                      setIsOtherOrgType(false);
+                      setFieldValue('showUniversity', true);
+                    } else {
+                      setFieldValue('orgType', value);
+                      setIsOtherOrgType(false);
+                      setIsCollegiateOrgType(false);
+                      setFieldValue('showUniversity', false);
+                    }
                   }}>
                     <SelectTrigger className="w-full shadow-input border-none">
                       <SelectValue placeholder="Organization type" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem className="cursor-pointer" value="philo">Philanthropy/Charity</SelectItem>
-                      <SelectItem className="cursor-pointer" value="corporate">Corporate</SelectItem>
-                      <SelectItem className="cursor-pointer" value="athletic">Athletic (Non-Collegiate)</SelectItem>
-                      <SelectItem className="cursor-pointer" value="wedding">Wedding</SelectItem>
-                      <SelectItem className="cursor-pointer" value="fraternity/sorority">Fraternity/Sorority</SelectItem>
-                      <SelectItem className="cursor-pointer" value="social_club">Social Club</SelectItem>
-                      <SelectItem className="cursor-pointer" value="student_philo">Student Philanthropy Group</SelectItem>
-                      <SelectItem className="cursor-pointer" value="student_athletic">Student Athletic Group</SelectItem>
-                      <SelectItem className="cursor-pointer" value="student_academic">Student Academic Club</SelectItem>
-                      <SelectItem className="cursor-pointer" value="student_political">Student Political Group</SelectItem>
-                      <SelectItem className="cursor-pointer" value="gov">Local Government</SelectItem>
-                      <SelectItem className="cursor-pointer" value="social">Social (Non-Collegiate)</SelectItem>
-                      <SelectItem className="cursor-pointer" value="trade_show">Trade Show Organizer</SelectItem>
-                      <SelectItem className="cursor-pointer" value="educational">Educational (Non-Collegiate)</SelectItem>
-                      <SelectItem className="cursor-pointer" value="music">Music</SelectItem>
-                      <SelectItem className="cursor-pointer" value="film">Film</SelectItem>
-                      <SelectItem className="cursor-pointer" value="cultural">Cultural</SelectItem>
-                      <SelectItem className="cursor-pointer" value="religious">Religious</SelectItem>
-                      <SelectItem className="cursor-pointer" value="community">Community</SelectItem>
+                      <SelectGroup className="mt-2">
+                        <SelectLabel>
+                          College/University
+                        </SelectLabel>
+                        <SelectItem className="cursor-pointer" value="fraternity/sorority">Fraternity/Sorority</SelectItem>
+                        <SelectItem className="cursor-pointer" value="social_club">Social Club</SelectItem>
+                        <SelectItem className="cursor-pointer" value="student_philo">Student Philanthropy Group</SelectItem>
+                        <SelectItem className="cursor-pointer" value="student_athletic">Student Athletic Group</SelectItem>
+                        <SelectItem className="cursor-pointer" value="student_academic">Student Academic Club</SelectItem>
+                        <SelectItem className="cursor-pointer" value="student_political">Student Political Group</SelectItem>
+                      </SelectGroup>
+                      <Separator className="my-2"/>
+                      <SelectGroup>
+                        <SelectLabel>
+                          Non-Collegiate
+                        </SelectLabel>
+                        <SelectItem className="cursor-pointer" value="philo">Philanthropy/Charity</SelectItem>
+                        <SelectItem className="cursor-pointer" value="corporate">Corporate</SelectItem>
+                        <SelectItem className="cursor-pointer" value="athletic">Athletic (Non-Collegiate)</SelectItem>
+                        <SelectItem className="cursor-pointer" value="wedding">Wedding</SelectItem>
+                        <SelectItem className="cursor-pointer" value="gov">Local Government</SelectItem>
+                        <SelectItem className="cursor-pointer" value="social">Social (Non-Collegiate)</SelectItem>
+                        <SelectItem className="cursor-pointer" value="trade_show">Trade Show Organizer</SelectItem>
+                        <SelectItem className="cursor-pointer" value="educational">Educational (Non-Collegiate)</SelectItem>
+                        <SelectItem className="cursor-pointer" value="music">Music</SelectItem>
+                        <SelectItem className="cursor-pointer" value="film">Film</SelectItem>
+                        <SelectItem className="cursor-pointer" value="cultural">Cultural</SelectItem>
+                        <SelectItem className="cursor-pointer" value="religious">Religious</SelectItem>
+                        <SelectItem className="cursor-pointer" value="community">Community</SelectItem>
+                      </SelectGroup>
+                      <Separator className="my-2"/>
                       <SelectItem className="cursor-pointer" value="other">Other</SelectItem>
                     </SelectContent>
                   </Select>
-                  {orgType !== "other" &&
+                  {orgType !== "other" || orgType !== "fraternity/sorority" || orgType !== "social_club" || orgType !== "student_philo" || orgType !== "student_athletic" || orgType !== "student_academic" || orgType !== "student_political" &&
                     <ErrorMessage name="orgType" component="div" className="text-red-500" />
                   }
                 </div>
 
-                {orgType == "other" && (
+                {isOtherOrgType && (
                   <div className="w-full flex flex-col gap-3">
                     <p>What type of organization are you?</p>
                     <Field name="orgType" as={Input} placeholder="Enter your organization type here" className="shadow-input border-none" />
@@ -314,78 +390,22 @@ const OrgProfile = ({ setSignedUp }) => {
                   </div>
                 )}
 
+                {isCollegiateOrgType && (
+                  <div className="w-full flex flex-col gap-3">
+                    <p>What university?</p>
+                    <Field name="university" as={Input} placeholder="Northwestern University" className="shadow-input border-none" />
+                    <ErrorMessage name="university" component="div" className="text-red-500" />
+                  </div>
+                )}
+
                 {/* Location */}
                 <div className="w-full flex flex-col gap-3">
-                  <p>Location</p>
-                  <Field name="location" as={Input} placeholder="Evanston, IL" className="shadow-input border-none" />
+                  <div>
+                    <p>City of your organization</p>
+                    <p className="text-xs">Please select your city from the popup.</p>
+                  </div>
+                  <Field name="location" as={GMapsAddressInput} placeholder="Evanston, IL" setFieldValue={setFieldValue} className="shadow-input border-none" />
                   <ErrorMessage name="location" component="div" className="text-red-500" />
-                </div>
-
-                {/* Description */}
-                <div className="w-full flex flex-col gap-3">
-                  <div>
-                    <p>Please write a brief <span className="font-bold">description</span> of your organization.</p>
-                    <p className="text-xs">Show brands a little personality and tell them what you&apos;re all about! (50 words maximum)</p>
-                  </div>
-                  <Field name="description" as={Textarea} placeholder="Write your description here..." className="w-full shadow-input border-none" />
-                  <ErrorMessage name="description" component="div" className="text-red-500" />
-                </div>
-
-                {/* Adjectives */}
-                <div className="w-full flex flex-col pb-2 gap-3">
-                  <div>
-                    <p>Write a few adjectives to describe your organization’s <span className="font-bold">personality</span>.</p>
-                    <p className="text-xs">Write up to 5. This will help Buzzers AI find matching sponsors.</p>
-                  </div>
-
-                  <div className="flex flex-row gap-2">
-                    {[...adjectives].map((adjective) => (
-                      <Badge key={adjective} className="py-2 font-medium bg-gray-200 rounded-[0.35rem]">
-                        {adjective}
-                        <X className="h-4 cursor-pointer" onClick={() => {
-                          handleAdjectiveDelete(adjective, setFieldValue);
-                        }} />
-                      </Badge>
-                    ))}
-                  </div>
-                  <div className="flex flex-row gap-2">
-                    <Input
-                      placeholder={adjectives.size >= 5 ? "Maximum 5 adjectives" : "Add an adjective"}
-                      className="shadow-input border-none"
-                      onKeyPress={(e) => handleAdjectiveKeyPress(e, setFieldValue)}
-                      value={currAdj}
-                      onChange={(e) => setCurrAdj(e.target.value)}
-                      disabled={adjectives.size >= 5}
-                    />
-                    <Button
-                      variant="outline"
-                      className="border-none shadow-input"
-                      onClick={() => {
-                        addAdjective(currAdj, setFieldValue);
-                      }}
-                      disabled={adjectives.size >= 5 || currAdj === ""}
-                    >
-                      Add
-                    </Button>
-                  </div>
-                  <ErrorMessage name="adjectives" component="div" className="text-red-500" />
-                </div>
-
-                {/* Age Range */}
-                <div className="w-full flex flex-col gap-3 pb-4">
-                  <p>What is the <span className="font-bold">age range</span> of the members of your organization?</p>
-                  <RangeSlider showValues value={ageRange} onValueChange={setAgeRange} />
-                </div>
-
-                {/* Gender composition */}
-                <div className="w-full flex flex-col gap-3">
-                  <p>What is the <span className="font-bold">gender composition</span> of your organization?</p>
-                  <Slider defaultValue={[percentMale]} max={100} step={1} onValueChange={(value) => setPercentMale(value)} />
-                  <div className="flex flex-row items-center justify-between">
-                    <p>Male</p>
-                    <p>{percentMale}%</p>
-                    <p>Female</p>
-                  </div>
                 </div>
 
                 {/* Event types */}
@@ -428,8 +448,86 @@ const OrgProfile = ({ setSignedUp }) => {
                   <ErrorMessage name="eventTypes" component="div" className="text-red-500" />
                 </div>
 
+                {/* Description */}
+                <div className="w-full flex flex-col gap-3">
+                  <div>
+                    <p>Please write a brief <span className="font-bold">description</span> of your organization.</p>
+                    <p className="text-xs">Show brands personality and tell them what you’re all about! Touch on your organization’s mission, how your members engage, and what kinds of events you host.</p>
+                  </div>
+                  <div className="flex flex-col">
+                    <Field name="description" as={Textarea} placeholder="Write your description here..." className="w-full shadow-input border-none"  onChange={(e) => {
+                        setFieldValue('description', e.target.value);
+                        setLenDesc(e.target.value.length);
+                      }} />
+                    <p className={`text-right pt-2 ${lenDesc > 250 ? "text-red-500" : "opacity-50"} text-xs`}>{lenDesc}/250</p>
+                    <ErrorMessage name="description" component="div" className="text-red-500" />
+                  </div>
+                </div>
+
+                {/* Age Range */}
+                <div className="w-full flex flex-col gap-3 pb-4">
+                  <p>What is the <span className="font-bold">age range</span> of the members of your organization?</p>
+                  <RangeSlider showValues value={ageRange} onValueChange={setAgeRange} />
+                </div>
+
+                {/* Gender composition */}
+                <div className="w-full flex flex-col gap-3">
+                  <p>What is the <span className="font-bold">gender composition</span> of your organization?</p>
+                  <Slider defaultValue={[percentMale]} max={100} step={1} onValueChange={(value) => setPercentMale(value)} />
+                  <div className="flex flex-row items-center justify-between">
+                    <div className="flex flex-col text-sm">
+                      <p>Male</p>
+                      <p>{percentMale}%</p>
+                    </div>
+                    <div className="flex flex-col text-sm">
+                      <p>Female</p>
+                      <p>{100 - percentMale}%</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Adjectives */}
+                <div className="w-full flex flex-col pb-2 gap-3">
+                  <div>
+                    <p>Write a few adjectives to describe your organization’s <span className="font-bold">personality</span>.</p>
+                    <p className="text-xs">These adjectives will help Buzzers AI find brands that fit your vibe. For example, your members may be studious, rowdy, ambitious, energetic, or chill.</p>
+                  </div>
+
+                  <div className="flex flex-row gap-2">
+                    {[...adjectives].map((adjective) => (
+                      <Badge key={adjective} className="py-2 font-medium bg-gray-200 rounded-[0.35rem]">
+                        {adjective}
+                        <X className="h-4 cursor-pointer" onClick={() => {
+                          handleAdjectiveDelete(adjective, setFieldValue);
+                        }} />
+                      </Badge>
+                    ))}
+                  </div>
+                  <div className="flex flex-row gap-2">
+                    <Input
+                      placeholder={adjectives.size >= 5 ? "Maximum 5 adjectives" : "Add an adjective"}
+                      className="shadow-input border-none"
+                      onKeyPress={(e) => handleAdjectiveKeyPress(e, setFieldValue)}
+                      value={currAdj}
+                      onChange={(e) => setCurrAdj(e.target.value)}
+                      disabled={adjectives.size >= 5}
+                    />
+                    <Button
+                      variant="outline"
+                      className="border-none shadow-input"
+                      onClick={() => {
+                        addAdjective(currAdj, setFieldValue);
+                      }}
+                      disabled={adjectives.size >= 5 || currAdj === ""}
+                    >
+                      Add
+                    </Button>
+                  </div>
+                  <ErrorMessage name="adjectives" component="div" className="text-red-500" />
+                </div>
+
                 <div className="w-full flex flex-col justify-center items-center gap-2">
-                  <Button type="submit" disabled={isSubmitting || !isValid} className="shadow-input w-full flex flex-row gap-2">
+                  <Button type="submit" disabled={isSubmitting} className="shadow-input w-full flex flex-row gap-2">
                     {isSubmitting ? (
                       <>
                         <p>Next</p>

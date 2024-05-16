@@ -253,3 +253,35 @@ body {
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* Customize the autocomplete dropdown menu */
+.pac-container {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  z-index: 10000 !important;
+}
+
+.pac-item {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.pac-item:hover {
+  background-color: #f0f0f0;
+}
+
+.pac-item-query {
+  font-weight: bold;
+}
+
+.pac-icon {
+  display: none;
+}
+
+.pac-matched {
+  color: #000;
+  font-weight: bold;
+}

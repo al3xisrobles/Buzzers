@@ -18,6 +18,8 @@ export const getOrgSubmission = /* GraphQL */ `
       instagram
       facebook
       website
+      referrer
+      university
       createdAt
       updatedAt
       __typename
@@ -46,6 +48,8 @@ export const listOrgSubmissions = /* GraphQL */ `
         instagram
         facebook
         website
+        referrer
+        university
         createdAt
         updatedAt
         __typename

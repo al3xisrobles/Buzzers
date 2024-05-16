@@ -23,7 +23,7 @@ function ConfirmationPage() {
       <div className="max-w-[35rem] px-2 mx-auto h-full flex items-center justify-center flex-col gap-8">
         <img src={Logo} className="w-20" alt="Buzzers" />
         <div className='flex flex-col items-center text-center'>
-          {orgName === '' ? (
+          {orgName === '' || orgName === undefined ? (
             <h1 className="font-bold text-3xl p-2">Welcome to Buzzers!</h1>
           ) : (
             <h1 className="font-bold text-3xl p-2">Welcome to Buzzers, {orgName}!</h1>

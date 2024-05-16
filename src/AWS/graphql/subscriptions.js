@@ -20,6 +20,8 @@ export const onCreateOrgSubmission = /* GraphQL */ `
       instagram
       facebook
       website
+      referrer
+      university
       createdAt
       updatedAt
       __typename
@@ -45,6 +47,8 @@ export const onUpdateOrgSubmission = /* GraphQL */ `
       instagram
       facebook
       website
+      referrer
+      university
       createdAt
       updatedAt
       __typename
@@ -70,6 +74,8 @@ export const onDeleteOrgSubmission = /* GraphQL */ `
       instagram
       facebook
       website
+      referrer
+      university
       createdAt
       updatedAt
       __typename

@@ -17,4 +17,6 @@ type OrgSubmission @model @auth(rules: [{ allow: private }]) {
   instagram: String
   facebook: String
   website: String
+  referrer: String
+  university: String
 }

@@ -20,7 +20,6 @@ import { submitToAPI, uploadImageToStorage } from "../../../../AWS/api";
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import toast from 'react-hot-toast';
 
-
 function SupplementalPage({ setSignedUp, orgName, formData }) {
   const [images, setImages] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -30,6 +29,7 @@ function SupplementalPage({ setSignedUp, orgName, formData }) {
   const [instagram, setInstagram] = useState('');
   const [facebook, setFacebook] = useState('');
   const [website, setWebsite] = useState('');
+  const [referrer, setRefferer] = useState('');
   const [formValues] = useState(formData);
   const { user } = useAuthenticator((context) => [context.user]);
 
@@ -141,17 +141,29 @@ function SupplementalPage({ setSignedUp, orgName, formData }) {
         frequency,
         instagram,
         facebook,
-        website
+        website,
+        referrer
       };
 
       // Union both form dictionaries
       const totalFormSubmission = { ...formValues, ...orgSubmissionSupplemental };
 
-      console.log("Submitting to API:", totalFormSubmission);
-      await submitToAPI(totalFormSubmission, createOrgSubmission);
+      // Get rid of `showUniversity` field
+      delete totalFormSubmission.showUniversity;
 
-      setSubmitted(true);
-      setSubmitting(false);
+      // Add user ID
+      totalFormSubmission.id = user.userId;
+
+      console.log("Submitting to API:", totalFormSubmission);
+      try {
+        await submitToAPI(totalFormSubmission, createOrgSubmission);
+        setSubmitted(true);
+        setSubmitting(false);
+      } catch (error) {
+        toast.error("Failed to submit data. Please try again later.");
+        setSubmitting(false);
+        return;
+      }
     } catch (error) {
       console.error(error);
       toast.error("Failed to upload images or submit data. Please try again.");
@@ -258,6 +270,12 @@ function SupplementalPage({ setSignedUp, orgName, formData }) {
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
           />
+        </div>
+
+        {/* Frequency */}
+        <div className="w-full flex flex-col gap-3">
+          <p>Referred to Buzzers by another organizer? Tell us their name here and you'll both earn referral perks!</p>
+          <Input className="shadow-input border-none" placeholder="Enter reference’s first and last name" onChange={(e) => setRefferer(e.target.value)} />
         </div>
 
         <Button type="submit" disabled={submitting} className="shadow-input w-full flex flex-row gap-2">

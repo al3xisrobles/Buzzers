@@ -1,10 +1,20 @@
-// Database (API)
+// Generates a client for interacting with the API.
 import { generateClient } from 'aws-amplify/api';
 const client = generateClient();
+
+// Queries
+import { getOrgSubmission } from './graphql/queries';
 
 // Storage
 import { uploadData } from "aws-amplify/storage";
 
+/**
+ * Uploads an image file to storage.
+ * @param {File} file - The image file to upload.
+ * @param {string} userId - The ID of the user.
+ * @param {string} subpath - The subpath for storing the image.
+ * @returns {Promise<string>} A promise that resolves with the path of the uploaded image.
+ */
 const uploadImageToStorage = async (file, userId, subpath) => {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
@@ -35,18 +45,48 @@ const uploadImageToStorage = async (file, userId, subpath) => {
   });
 };
 
+/**
+ * Submits an organization submission to the API.
+ * @param {Object} orgSubmission - The organization submission data.
+ * @param {string} query - The GraphQL query for submitting the data.
+ * @returns {Promise<void>} A promise that resolves when the submission is successful.
+ */
 const submitToAPI = async (orgSubmission, query) => {
-  try {
-    await client.graphql({
+  return new Promise((resolve, reject) => {
+    client.graphql({
       query: query,
       variables: {
         input: orgSubmission
       },
+    }).then(() => {
+      console.log("Successfully submitted to DB API");
+      resolve();
+    }).catch((error) => {
+      console.error(error);
+      reject(error);
     });
-    console.log("Successfully submitted to DB API");
+  });
+};
+
+/**
+ * Checks the sign-up status of a user.
+ * @param {string} userId - The ID of the user.
+ * @returns {Promise<boolean>} A promise that resolves with a boolean indicating the sign-up status.
+ */
+const checkUserSignUpStatus = async (userId) => {
+  try {
+    const response = await client.graphql({
+      query: getOrgSubmission,
+      variables: {
+        id: userId,
+      }
+    });
+    console.log("RES:", response);
+    return response.data.getOrgSubmission ? true : false;
   } catch (error) {
-    console.error(error);
+    console.error("Error checking sign up status:", error);
+    return false;
   }
 };
 
-export { submitToAPI, uploadImageToStorage };
+export { submitToAPI, uploadImageToStorage, checkUserSignUpStatus };

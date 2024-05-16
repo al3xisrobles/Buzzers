@@ -31,6 +31,7 @@ import { Amplify } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import { useAuth } from './Components/Dashboard/Auth/AuthContext';
 import { useAuthenticator } from '@aws-amplify/ui-react';
+import { checkUserSignUpStatus } from './AWS/api';
 Amplify.configure(awsconfig);
 
 // React hot toast notifications
@@ -95,7 +96,7 @@ function PageNotFoundPage() {
 // Component for the terms of service page
 function DashboardPage() {
   const { loadingAttributes } = useAuth();
-  const { authStatus } = useAuthenticator(context => [context.authStatus]);
+  const { authStatus, user } = useAuthenticator(context => [context.authStatus, context.user]);
   const [showLoading, setShowLoading] = useState(true);
 
   const [signedUp, setSignedUp] = useState(false);
@@ -109,6 +110,25 @@ function DashboardPage() {
       }
     }, 100);
   }, [loadingAttributes]);
+
+  useEffect(() => {
+    console.log('User:', user);
+  }, [user]);
+
+  // Check if the user has signed up
+  useEffect(() => {
+    const checkSignUpStatus = async () => {
+      console.log("USER ID:", user.userId);
+      const userId = user.userId; // Replace with actual user ID from authentication context
+      const isSignedUp = await checkUserSignUpStatus(userId);
+      console.log("Signed up:", isSignedUp);
+      setSignedUp(isSignedUp);
+    };
+
+    if (user) {
+      checkSignUpStatus();
+    }
+  }, [user]);
 
   useEffect(() => {
     console.log('Auth status:', authStatus);
