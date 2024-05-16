@@ -42,16 +42,22 @@ const OrgProfile = ({ setSignedUp }) => {
   const [isOtherOrgType, setIsOtherOrgType] = useState(false);
   const [isCollegiateOrgType, setIsCollegiateOrgType] = useState(false);
   const [formData, setFormData] = useState({});
-  const { user } = useAuthenticator((context) => [context.user]);
-  const { userAttributes } = useAuth();
+  const { user, authStatus } = useAuthenticator((context) => [context.user]);
+  const { userAttributes, loadingAttributes, fetchAttributes } = useAuth();
   const hasUnsavedChanges = useRef(false);
 
   useEffect(() => {
-    if (Object.keys(userAttributes).length !== 0) {
+    if (!loadingAttributes && Object.keys(userAttributes).length !== 0) {
       setRepName(userAttributes["custom:first_name"]);
       setOrgName(userAttributes["custom:org_name"]);
     }
   }, [userAttributes]);
+
+  useEffect(() => {
+    if (authStatus === 'authenticated') {
+      fetchAttributes();
+    }
+  }, [authStatus, loadingAttributes]);
 
   const handleImageUpload = async (file) => {
     if (file) {

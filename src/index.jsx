@@ -106,33 +106,30 @@ function PageNotFoundPage() {
 
 // Component for the terms of service page
 function DashboardPage() {
-  const { loadingAttributes } = useAuth();
+  const { loadingAttributes, userAttributes } = useAuth();
   const { authStatus, user } = useAuthenticator(context => [context.authStatus, context.user]);
   const [showLoading, setShowLoading] = useState(true);
-
   const [signedUp, setSignedUp] = useState(false);
 
   // Wait before fade out starts
   useEffect(() => {
     const interval = setInterval(() => {
-      if (loadingAttributes == false) {
+      if (loadingAttributes == false && Object.keys(userAttributes).length !== 0) {
         setShowLoading(false);
         clearInterval(interval);
       }
     }, 100);
-  }, [loadingAttributes]);
+  }, [loadingAttributes, userAttributes]);
 
   useEffect(() => {
-    console.log('User:', user);
-  }, [user]);
+    console.log("Auth status:", authStatus);
+  }, [authStatus]);
 
   // Check if the user has signed up
   useEffect(() => {
     const checkSignUpStatus = async () => {
-      console.log("USER ID:", user.userId);
       const userId = user.userId; // Replace with actual user ID from authentication context
       const isSignedUp = await checkUserSignUpStatus(userId);
-      console.log("Signed up:", isSignedUp);
       setSignedUp(isSignedUp);
     };
 
@@ -141,9 +138,23 @@ function DashboardPage() {
     }
   }, [user]);
 
-  useEffect(() => {
-    console.log('Auth status:', authStatus);
-  }, [authStatus])
+  // const clearAmplifyCache = async () => {
+  //   localStorage.clear();
+  //   sessionStorage.clear();
+  //   console.log('Cleared Amplify Cache');
+  // };
+
+  // const clearBrowserCache = () => {
+  //   localStorage.clear();
+  //   sessionStorage.clear();
+  //   console.log('Cleared Browser Cache');
+  // };
+
+  // // Clear cache on component mount
+  // useEffect(() => {
+  //   clearAmplifyCache();
+  //   clearBrowserCache();
+  // }, []);
 
   const loadingVariants = {
     initial: {

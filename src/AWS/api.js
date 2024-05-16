@@ -81,7 +81,6 @@ const checkUserSignUpStatus = async (userId) => {
         id: userId,
       }
     });
-    console.log("RES:", response);
     return response.data.getOrgSubmission ? true : false;
   } catch (error) {
     console.error("Error checking sign up status:", error);
