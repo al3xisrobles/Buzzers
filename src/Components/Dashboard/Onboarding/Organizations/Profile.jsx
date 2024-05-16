@@ -442,7 +442,7 @@ const OrgProfile = ({ setSignedUp }) => {
                 <div className="w-full flex flex-col pb-2 gap-3">
                   <div>
                     <p>What <span className="font-bold">kinds of events</span> does your organization host?</p>
-                    <p className="text-xs">Examples: Party, Concert, Philanthropy, Seminars, etc. Write up to 5. This will help Buzzers AI find matching sponsors.</p>
+                    <p className="text-xs">Examples: Party, Concert, Chapter Meeting, Philanthropy, Sports Event, Seminars, etc. Write up to 5. This will help Buzzers AI find matching sponsors</p>
                   </div>
 
                   <div className="flex flex-row gap-2">
