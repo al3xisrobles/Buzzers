@@ -33,7 +33,7 @@ const OrgProfile = ({ setSignedUp }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [adjectives, setAdjectives] = useState(new Set());
   const [currAdj, setCurrAdj] = useState("");
-  const [ageRange, setAgeRange] = useState([18, 65]);
+  const [ageRange, setAgeRange] = useState([18, 30]);
   const [percentMale, setPercentMale] = useState(50);
   const [eventTypes, setEventTypes] = useState(new Set());
   const [currEventType, setCurrEventType] = useState("");
@@ -299,7 +299,7 @@ const OrgProfile = ({ setSignedUp }) => {
           >
             {({ isSubmitting, setFieldValue, isValid }) => (
               <Form
-                className="max-w-[32rem] px-2 flex flex-col gap-10 items-center justify-center"
+                className="max-w-[33rem] px-2 flex flex-col gap-10 items-center justify-center"
                 onChange={handleFormChange}
               >
                 {/* Image upload */}

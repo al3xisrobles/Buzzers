@@ -3,7 +3,7 @@ import * as SliderPrimitive from "@radix-ui/react-slider";
 
 import { cn } from "@/lib/utils";
 
-const RangeSlider = React.forwardRef(({ className, min = 0, max = 100, value, showValues = false, onValueChange, ...props }, ref) => {
+const RangeSlider = React.forwardRef(({ className, min = 0, max = 50, value, showValues = false, onValueChange, ...props }, ref) => {
   const [internalValue, setInternalValue] = React.useState(value);
 
   const handleChange = (newValues) => {
@@ -47,7 +47,11 @@ const RangeSlider = React.forwardRef(({ className, min = 0, max = 100, value, sh
         >
           {showValues &&
             <div className="absolute top-8 left-1/2 transform -translate-x-1/2 text-sm">
-              {internalValue[1]}
+              {internalValue[1] == max ? (
+                <p>{max}+</p>
+              ) : (
+                <p>{internalValue[1]}</p>
+              )}
             </div>
           }
         </SliderPrimitive.Thumb>
