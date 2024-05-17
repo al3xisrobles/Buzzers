@@ -25,7 +25,7 @@ function Hero() {
                 <p>Sign up before launch and be the first to get your event sponsored.</p>
               </div>
               <div className='pt-5 flex flex-col justify-center sm:flex-row gap-3 items-center'>
-                <a href="/dashboard" className="hover:opacity-75 transition md:mx-0 w-max rounded-full">
+                <a href="/dashboard" className="z-[999] hover:opacity-75 transition md:mx-0 w-max rounded-full">
                   <Button className="font-normal text-black text-lg px-6 py-6 shadow-input">Sign up for early access</Button>
                 </a>
                 {/* <p>or <a href="/about" className="font-bold hover:opacity-50 transition">learn more</a></p> */}

@@ -29,11 +29,11 @@ function Navbar() {
         </a>
 
         {/* Navbar Buttons */}
-        <div className="text-carbon hidden sm:flex flex-row gap-2 items-center">
+        <div className="text-carbon flex flex-row gap-2 items-center">
           <a href="/about">
             <Button variant="ghost">Learn more</Button>
           </a>
-          <a href="/dashboard" className="flex justify-center items-center text-black bg-primary rounded-full hover:opacity-90 transition-all duration-300">
+          <a href="/dashboard" className="hidden sm:flex justify-center items-center text-black bg-primary rounded-full hover:opacity-90 transition-all duration-300">
             <Button className="shadow-input text-black">Sign up</Button>
           </a>
         </div>
