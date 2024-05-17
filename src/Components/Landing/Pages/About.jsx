@@ -30,7 +30,7 @@ function About() {
         </div>
 
         <div className='w-full mt-[5rem] mb-[20rem] pr-4 sm:my-40 h-[40rem] flex flex-col sm:flex-row gap-2 sm:gap-5 justify-between'>
-          <div className='max-w-screen-2xl w-full mx-auto flex flex-col gap-5 sm:flex-row justify-between items-center'>
+          <div className='max-w-screen-2xl w-full mx-auto flex flex-col gap-5 sm:flex-row justify-evenly sm:justify-between items-center'>
             <div>
               <img src={Product} alt="Product" className="pointer-events-none h-full" />
             </div>
