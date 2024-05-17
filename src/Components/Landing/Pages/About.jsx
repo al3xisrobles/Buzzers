@@ -12,7 +12,7 @@ function About() {
           <h3 className='text-3xl'>Take your organization to the next level: <span className='bg-gradient-to-r from-[#FFD54F] to-[#E5B200] text-transparent bg-clip-text opacity-75'>get sponsored and get paid.</span></h3>
         </div>
 
-        <div className='w-full h-[25rem] flex flex-col px-4 sm:flex-row justify-evenly bg-haze py-10'>
+        <div className='mt-[10rem] w-full h-[25rem] flex flex-col px-4 sm:flex-row justify-evenly bg-haze py-10'>
           <div className='max-w-screen-2xl w-full mx-auto flex flex-col sm:flex-row justify-evenly items-center'>
             <div className='my-auto max-w-[36rem] gap-4 flex flex-col justify-center'>
               <h4 className='text-5xl font-semibold'>Post events in 2 minutes</h4>
@@ -29,7 +29,7 @@ function About() {
           </div>
         </div>
 
-        <div className='w-full mt-[20rem] mb-24 pr-4 sm:my-40 h-[40rem] flex flex-col sm:flex-row gap-2 sm:gap-5 justify-between py-auto'>
+        <div className='w-full mt-[5rem] mb-[20rem] pr-4 sm:my-40 h-[40rem] flex flex-col sm:flex-row gap-2 sm:gap-5 justify-between py-auto'>
           <div className='max-w-screen-2xl w-full mx-auto flex flex-col gap-5 sm:flex-row justify-between items-center'>
             <div>
               <img src={Product} alt="Product" className="pointer-events-none h-full" />
@@ -46,7 +46,7 @@ function About() {
           </div>
         </div>
 
-        <div className='w-full h-[28rem] flex flex-col px-4 sm:flex-row justify-evenly bg-haze py-10'>
+        <div className='mt-[10rem] w-full h-[28rem] flex flex-col px-4 sm:flex-row justify-evenly bg-haze py-10'>
           <div className='max-w-screen-2xl w-full mx-auto flex flex-col sm:flex-row justify-evenly items-center'>
             <div className='my-auto max-w-[37rem] gap-4 flex flex-col justify-center'>
               <h4 className='text-5xl font-semibold'>Get paid for being a brand partner, every time</h4>
@@ -63,7 +63,7 @@ function About() {
           </div>
         </div>
 
-        <div className='w-full mt-[20rem] px-4 sm:mt-0 text-center py-32 flex flex-col gap-4 justify-center items-center'>
+        <div className='w-full mt-[10rem] px-4 sm:mt-0 text-center py-32 flex flex-col gap-4 justify-center items-center'>
           <h3 className='text-3xl'>Sign up before launch and be at the top of the organizer list.</h3>
           <a href="/dashboard" className='w-max'>
             <Button className="px-20">
