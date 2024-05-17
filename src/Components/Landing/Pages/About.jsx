@@ -1,7 +1,7 @@
-import EventCreation from '../../../Assets/Landing/About/EventCreation.svg'
-import Product from '../../../Assets/Landing/About/Product.svg'
-import Paid from '../../../Assets/Landing/About/Paid.svg'
-import { Button } from "@/components/ui/button"
+import EventCreation from '../../../Assets/Landing/About/EventCreation.svg';
+import Product from '../../../Assets/Landing/About/Product.svg';
+import Paid from '../../../Assets/Landing/About/Paid.svg';
+import { Button } from "@/components/ui/button";
 
 function About() {
   return (
@@ -29,9 +29,9 @@ function About() {
           </div>
         </div>
 
-        <div className='w-full mt-[18rem] mb-[8rem] pr-4 sm:my-[10rem] h-[40rem] flex flex-col sm:flex-row gap-2 sm:gap-5 justify-between py-auto'>
+        <div className='w-full mt-[20rem] mb-24 pr-4 sm:my-40 h-[40rem] flex flex-col sm:flex-row gap-2 sm:gap-5 justify-between py-auto'>
           <div className='max-w-screen-2xl w-full mx-auto flex flex-col gap-5 sm:flex-row justify-between items-center'>
-            <div className=''>
+            <div>
               <img src={Product} alt="Product" className="pointer-events-none h-full" />
             </div>
             <div className='my-auto pl-4 max-w-[38rem] gap-4 flex flex-col text-right items-end justify-center sm:mr-10 lg:mr-20'>
@@ -63,7 +63,7 @@ function About() {
           </div>
         </div>
 
-        <div className='w-full mt-[18rem] px-4 sm:mt-0 text-center py-[8rem] flex flex-col gap-4 justify-center items-center'>
+        <div className='w-full mt-[20rem] px-4 sm:mt-0 text-center py-32 flex flex-col gap-4 justify-center items-center'>
           <h3 className='text-3xl'>Sign up before launch and be at the top of the organizer list.</h3>
           <a href="/dashboard" className='w-max'>
             <Button className="px-20">
@@ -73,7 +73,7 @@ function About() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default About
+export default About;
