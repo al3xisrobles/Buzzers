@@ -29,12 +29,12 @@ function About() {
           </div>
         </div>
 
-        <div className='w-full mt-[5rem] mb-[20rem] pr-4 sm:my-40 h-[40rem] flex flex-col sm:flex-row gap-2 sm:gap-5 justify-between py-auto'>
+        <div className='w-full mt-[5rem] mb-[20rem] pr-4 sm:my-40 h-[40rem] flex flex-col sm:flex-row gap-2 sm:gap-5 justify-between'>
           <div className='max-w-screen-2xl w-full mx-auto flex flex-col gap-5 sm:flex-row justify-between items-center'>
             <div>
               <img src={Product} alt="Product" className="pointer-events-none h-full" />
             </div>
-            <div className='my-auto pl-4 max-w-[38rem] gap-4 flex flex-col text-right items-end justify-center sm:mr-10 lg:mr-20'>
+            <div className='pl-4 max-w-[38rem] gap-4 flex flex-col text-right items-end justify-center sm:mr-10 lg:mr-20'>
               <h4 className='text-5xl font-semibold'>We&apos;ll find you the perfect product sponsor</h4>
               <p className='text-lg'>We use AI to match you to an ideal Buzzers brand partner. Review and confirm your agreement, and we&apos;ll get you the product for your event!</p>
               <a href="/dashboard" className='w-max'>
