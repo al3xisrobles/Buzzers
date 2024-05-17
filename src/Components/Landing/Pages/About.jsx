@@ -12,7 +12,7 @@ function About() {
           <h3 className='text-3xl'>Take your organization to the next level: <span className='bg-gradient-to-r from-[#FFD54F] to-[#E5B200] text-transparent bg-clip-text opacity-75'>get sponsored and get paid.</span></h3>
         </div>
 
-        <div className='mt-[10rem] w-full h-[25rem] flex flex-col px-4 sm:flex-row justify-evenly bg-haze py-10'>
+        <div className='mt-[5rem] w-full h-[25rem] flex flex-col px-4 sm:flex-row justify-evenly bg-haze py-10'>
           <div className='max-w-screen-2xl w-full mx-auto flex flex-col sm:flex-row justify-evenly items-center'>
             <div className='my-auto max-w-[36rem] gap-4 flex flex-col justify-center'>
               <h4 className='text-5xl font-semibold'>Post events in 2 minutes</h4>
