@@ -29,7 +29,7 @@ function About() {
           </div>
         </div>
 
-        <div className='w-full mt-[5rem] pr-4 sm:my-40 min-h-[40rem] sm:h-[40rem] flex flex-col sm:flex-row justify-between'>
+        <div className='w-full mt-[5rem] pr-4 sm:my-40 min-h-[25rem] sm:h-[40rem] flex flex-col sm:flex-row justify-between'>
           <div className='max-w-screen-2xl w-full mx-auto flex flex-col gap-10 sm:flex-row justify-evenly sm:justify-between items-center'>
             <div>
               <img src={Product} alt="Product" className="pointer-events-none h-full" />
