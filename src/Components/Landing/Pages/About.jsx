@@ -12,7 +12,7 @@ function About() {
           <h3 className='text-3xl'>Take your organization to the next level: <span className='bg-gradient-to-r from-[#FFD54F] to-[#E5B200] text-transparent bg-clip-text opacity-75'>get sponsored and get paid.</span></h3>
         </div>
 
-        <div className='mt-[5rem] w-full h-[25rem] flex flex-col px-4 sm:flex-row justify-evenly bg-haze py-10'>
+        <div className='mt-[5rem] w-full min-h-[25rem] sm:h-[25rem] flex flex-col px-4 sm:flex-row justify-evenly bg-haze py-10'>
           <div className='max-w-screen-2xl w-full mx-auto flex flex-col sm:flex-row justify-evenly items-center'>
             <div className='my-auto max-w-[36rem] gap-4 flex flex-col justify-center'>
               <h4 className='text-5xl font-semibold'>Post events in 2 minutes</h4>
@@ -29,8 +29,8 @@ function About() {
           </div>
         </div>
 
-        <div className='w-full mt-[5rem] mb-[20rem] pr-4 sm:my-40 h-[40rem] flex flex-col sm:flex-row gap-2 sm:gap-5 justify-between'>
-          <div className='max-w-screen-2xl w-full mx-auto flex flex-col gap-5 sm:flex-row justify-evenly sm:justify-between items-center'>
+        <div className='w-full mt-[5rem] pr-4 sm:my-40 min-h-[40rem] sm:h-[40rem] flex flex-col sm:flex-row justify-between'>
+          <div className='max-w-screen-2xl w-full mx-auto flex flex-col gap-10 sm:flex-row justify-evenly sm:justify-between items-center'>
             <div>
               <img src={Product} alt="Product" className="pointer-events-none h-full" />
             </div>
@@ -46,8 +46,8 @@ function About() {
           </div>
         </div>
 
-        <div className='mt-[10rem] w-full h-[28rem] flex flex-col px-4 sm:flex-row justify-evenly bg-haze py-10'>
-          <div className='max-w-screen-2xl w-full mx-auto flex flex-col sm:flex-row justify-evenly items-center'>
+        <div className='mt-[5rem] sm:mt-[10rem] w-full min-h-[28rem] sm:h-[28rem] flex flex-col px-4 sm:flex-row justify-evenly bg-haze py-10'>
+          <div className='max-w-screen-2xl w-full mx-auto flex flex-col gap-10 sm:flex-row justify-evenly items-center'>
             <div className='my-auto max-w-[37rem] gap-4 flex flex-col justify-center'>
               <h4 className='text-5xl font-semibold'>Get paid for being a brand partner, every time</h4>
               <p className='text-lg'>Upload photos of your event and Buzzers will pay you right away. That&apos;s free products for your event, and quick money to your pocket!</p>
@@ -58,12 +58,12 @@ function About() {
               </a>
             </div>
             <div>
-              <img src={Paid} alt="Get paid" className="pointer-events-none h-[31rem]" />
+              <img src={Paid} alt="Get paid" className="pointer-events-none sm:h-[31rem]" />
             </div>
           </div>
         </div>
 
-        <div className='w-full mt-[10rem] px-4 sm:mt-0 text-center py-32 flex flex-col gap-4 justify-center items-center'>
+        <div className='w-full px-4 sm:mt-0 text-center py-32 flex flex-col gap-4 justify-center items-center'>
           <h3 className='text-3xl'>Sign up before launch and be at the top of the organizer list.</h3>
           <a href="/dashboard" className='w-max'>
             <Button className="px-20">
