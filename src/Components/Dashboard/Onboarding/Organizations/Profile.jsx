@@ -276,9 +276,6 @@ const OrgProfile = ({ setSignedUp }) => {
                 return;
               }
 
-              // Get complement
-              values.percentMale = 100 - percentMale;
-
               // If other org type is selected, set org type to other
               if (values.showOtherOrg) {
                 values.orgType = values.otherOrgType;
