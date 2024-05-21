@@ -286,6 +286,10 @@ const OrgProfile = ({ setSignedUp }) => {
 
               // Set form data to pass onto the second page
               const valuesWithSliderData = { ...values, ageRange, percentMale };
+
+              // Get complement of percentMale
+              valuesWithSliderData.percentMale = 100 - percentMale;
+
               setFormData(valuesWithSliderData);
               console.log(valuesWithSliderData);
 
