@@ -1,7 +1,8 @@
-import Logo from "../../../Assets/Dashboard/LogoYellow.svg"
+import Logo from "../../../../Assets/Dashboard/LogoYellow.svg"
 import { Authenticator } from '@aws-amplify/ui-react';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useState, useEffect } from 'react';
+import { signUp } from 'aws-amplify/auth';
 
 const components = {
   Header() {
@@ -89,9 +90,15 @@ const formFields = {
       isRequired: true,
       order: 2,
     },
-    'custom:representative': {
-      label: 'Representative Name',
-      placeholder: 'Ben Goodwin',
+    'custom:first_name': {
+      label: 'Representative First Name',
+      placeholder: 'Ben',
+      isRequired: true,
+      order: 3,
+    },
+    'custom:last_name': {
+      label: 'Representative Last Name',
+      placeholder: 'Goodwin',
       isRequired: true,
       order: 3,
     },
@@ -173,11 +180,34 @@ function BrandLogin() {
 
   useEffect(() => {
     setRecordedRoutes(prevRoutes => [...prevRoutes, route]);
-    console.log("Adding route")
   }, [route]);
 
+  const services = {
+    async handleSignUp(input) {
+      // custom username and email
+      const { username, password, options } = input;
+      return signUp({
+        username: username,
+        password,
+        options: {
+          ...options,
+          userAttributes: {
+            ...options?.userAttributes,
+            'custom:user_type': 'brand',
+          }
+        },
+
+      });
+    },
+  };
+
   return (
-    <Authenticator formFields={formFields} components={components} initialState="signUp">
+    <Authenticator
+      formFields={formFields}
+      components={components}
+      initialState="signUp"
+      services={services}
+    >
       {({ signOut }) => <button onClick={signOut}>Sign out</button>}
     </Authenticator>
   )

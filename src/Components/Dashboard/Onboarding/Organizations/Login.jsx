@@ -1,7 +1,7 @@
 import Logo from "../../../../Assets/Dashboard/LogoYellow.svg";
-import { Authenticator } from '@aws-amplify/ui-react';
-import { useAuthenticator } from '@aws-amplify/ui-react';
+import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 import { useEffect, useState } from 'react';
+import { signUp } from 'aws-amplify/auth';
 
 const components = {
   Header() {
@@ -173,11 +173,34 @@ function OrgLogin() {
 
   useEffect(() => {
     setRecordedRoutes(prevRoutes => [...prevRoutes, route]);
-    console.log("Adding route")
   }, [route]);
 
+  const services = {
+    async handleSignUp(input) {
+      // custom username and email
+      const { username, password, options } = input;
+      return signUp({
+        username: username,
+        password,
+        options: {
+          ...options,
+          userAttributes: {
+            ...options?.userAttributes,
+            'custom:user_type': 'org',
+          }
+        },
+
+      });
+    },
+  };
+
   return (
-    <Authenticator formFields={formFields} components={components} initialState="signUp">
+    <Authenticator
+      formFields={formFields}
+      components={components}
+      initialState="signUp"
+      services={services}
+    >
       {({ signOut }) => <button onClick={signOut}>Sign out</button>}
     </Authenticator>
   );

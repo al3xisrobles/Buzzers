@@ -40,8 +40,12 @@ import { Toaster } from 'react-hot-toast';
 
 // Framer Motion
 import { motion, AnimatePresence } from 'framer-motion';
+
+// Onboarding
 import OrgConfirmationPage from './Components/Dashboard/Onboarding/Organizations/ConfirmationPage';
 import OrgProfile from './Components/Dashboard/Onboarding/Organizations/Profile';
+import BrandConfirmationPage from './Components/Dashboard/Onboarding/Brands/ConfirmationPage';
+import BrandProfile from './Components/Dashboard/Onboarding/Brands/Profile';
 
 function FixedNavbar() {
   return (
@@ -110,6 +114,7 @@ function DashboardPage() {
   const { authStatus, user } = useAuthenticator(context => [context.authStatus, context.user]);
   const [showLoading, setShowLoading] = useState(true);
   const [signedUp, setSignedUp] = useState(false);
+  const [userType, setUserType] = useState(null);
 
   // Wait before fade out starts
   useEffect(() => {
@@ -117,13 +122,12 @@ function DashboardPage() {
       if (loadingAttributes == false && Object.keys(userAttributes).length !== 0) {
         setShowLoading(false);
         clearInterval(interval);
+        if (authStatus === 'authenticated') {
+          setUserType(userAttributes['custom:user_type']);
+        }
       }
     }, 100);
-  }, [loadingAttributes, userAttributes]);
-
-  useEffect(() => {
-    console.log("Auth status:", authStatus);
-  }, [authStatus]);
+  }, [loadingAttributes, userAttributes, authStatus]);
 
   // Check if the user has signed up
   useEffect(() => {
@@ -191,9 +195,9 @@ function DashboardPage() {
           <div className='h-screen'>
             {signedUp ? (
               // <Dashboard />
-              <OrgConfirmationPage />
+              (userType === 'brand' ? <BrandConfirmationPage /> : <OrgConfirmationPage />)
             ) : (
-              <OrgProfile setSignedUp={setSignedUp}/>
+              (userType === 'brand' ? <BrandProfile setSignedUp={setSignedUp} /> : <OrgProfile setSignedUp={setSignedUp} />)
             )}
           </div>
         </>
@@ -201,8 +205,6 @@ function DashboardPage() {
     </div>
   );
 }
-
-export default DashboardPage;
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <div className="bg-cloud">
