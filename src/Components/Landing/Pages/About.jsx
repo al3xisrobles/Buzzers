@@ -1,6 +1,6 @@
-import EventCreation from '../../../Assets/Landing/About/EventCreation.svg';
-import Product from '../../../Assets/Landing/About/Product.svg';
-import Paid from '../../../Assets/Landing/About/Paid.svg';
+import EventCreation from '../../../Assets/Landing/About/EventCreation.png';
+import Product from '../../../Assets/Landing/About/Product.png';
+import Paid from '../../../Assets/Landing/About/Paid.png';
 import { Button } from "@/components/ui/button";
 
 function About() {
