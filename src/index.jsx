@@ -142,23 +142,23 @@ function DashboardPage() {
     }
   }, [user]);
 
-  // const clearAmplifyCache = async () => {
-  //   localStorage.clear();
-  //   sessionStorage.clear();
-  //   console.log('Cleared Amplify Cache');
-  // };
+  const clearAmplifyCache = async () => {
+    localStorage.clear();
+    sessionStorage.clear();
+    console.log('Cleared Amplify Cache');
+  };
 
-  // const clearBrowserCache = () => {
-  //   localStorage.clear();
-  //   sessionStorage.clear();
-  //   console.log('Cleared Browser Cache');
-  // };
+  const clearBrowserCache = () => {
+    localStorage.clear();
+    sessionStorage.clear();
+    console.log('Cleared Browser Cache');
+  };
 
-  // // Clear cache on component mount
-  // useEffect(() => {
-  //   clearAmplifyCache();
-  //   clearBrowserCache();
-  // }, []);
+  // Clear cache on component mount
+  useEffect(() => {
+    clearAmplifyCache();
+    clearBrowserCache();
+  }, []);
 
   const loadingVariants = {
     initial: {

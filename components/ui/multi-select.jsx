@@ -53,7 +53,7 @@ function MultiSelect({ name, options, placeholder, setFieldValue }) {
   return (
     <Command
       onKeyDown={handleKeyDown}
-      className="overflow-visible max-w-[28.7rem] mx-auto"
+      className="overflow-visible mx-auto"
     >
       <div className="flex flex-col">
         <div className={`flex flex-row flex-wrap gap-2 ${selected.length > 0 && "mt-2"} pb-4`}>

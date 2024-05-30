@@ -7,9 +7,10 @@ import { Button } from "@/components/ui/button";
 
 import PageOneForm from "./PageOneForm";
 import PageTwoForm from "./PageTwoForm";
+import PageThreeForm from "./PageThreeForm";
 
 const BrandProfile = ({ setSignedUp }) => {
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
   const [repName, setRepName] = useState("");
   const [brandName, setBrandName] = useState("");
   const [ageRange, setAgeRange] = useState([18, 35]);
@@ -105,6 +106,23 @@ const BrandProfile = ({ setSignedUp }) => {
             hasUnsavedChanges={hasUnsavedChanges}
             ageRange={ageRange}
             setAgeRange={setAgeRange}
+          />
+        </div>
+      )}
+
+      {page === 3 && (
+        <div className="w-full flex flex-col gap-6 items-center justify-center py-20">
+          <img src={Logo} className="w-20" alt="Buzzers" />
+          <div className="flex flex-col items-center text-center pb-10 max-w-[34rem]">
+            <h1 className="font-bold text-2xl p-2">Final steps...</h1>
+            <p className="pb-4">Now tell us more about your deployment structure and marketing goals.</p>
+            <p>You may create <span className="font-bold">multiple agreement structures </span>and select your preference for a given event at the time of deployment. Buzzers will ensure the organizer understands your marketing preferences before the event.</p>
+          </div>
+
+          <PageThreeForm
+            initialValues={formData}
+            onSubmit={handleFormSubmit}
+            hasUnsavedChanges={hasUnsavedChanges}
           />
         </div>
       )}

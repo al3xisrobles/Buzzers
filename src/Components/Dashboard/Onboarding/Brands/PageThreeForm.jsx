@@ -1,12 +1,10 @@
-import { Formik, Form, ErrorMessage } from 'formik';
+import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
-import { Select, SelectGroup, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import InputTags from '../InputTags';
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
 import { MultiSelect } from '@/components/ui/multi-select';
-import { RangeSlider } from '@/components/ui/rangeslider';
-import { LoaderCircle } from 'lucide-react';
+import { LoaderCircle, Plus, Minus } from 'lucide-react';
 
 const validationSchema = Yup.object({
   region: Yup.string().required('Region is required'),
@@ -14,13 +12,6 @@ const validationSchema = Yup.object({
   eventTypes: Yup.array().min(3, 'At least 3 event types are required'),
   desiredOrganizers: Yup.array().min(3, 'At least 3 desired organizers are required'),
 });
-
-const regions = [
-  "Northeast",
-  "Southeast",
-  "West Coast",
-  "Midwest",
-];
 
 const eventTypes = [
   { value: "concerts", label: "Concerts" },
@@ -36,11 +27,7 @@ const orgTypes = [
   { value: "philanthropy_events", label: "Student Organizations" },
 ];
 
-const generateValue = (label) => {
-  return label.toLowerCase().replace(/[^a-z]+/g, '_');
-};
-
-const BrandProfileFormPageTwo = ({ initialValues, onSubmit, hasUnsavedChanges, ageRange, setAgeRange }) => {
+const BrandProfileFormPageThree = ({ initialValues, onSubmit, hasUnsavedChanges }) => {
   return (
     <Formik
       validate={(values) => console.log("FORM VALUES:", values)}
@@ -54,34 +41,11 @@ const BrandProfileFormPageTwo = ({ initialValues, onSubmit, hasUnsavedChanges, a
           onChange={() => hasUnsavedChanges.current = true}
         >
 
-          <div className="w-full flex flex-col gap-3 mb-4">
-            <p>What is your target <span className='font-bold'>age range</span></p>
-            <RangeSlider showValues value={ageRange} onValueChange={setAgeRange} />
-          </div>
-
-          <div className="w-full flex flex-col gap-3">
-            <p>What <span className='font-bold'>region</span> would you like to market to?</p>
-            <Select onValueChange={(value) => setFieldValue('region', value)}>
-              <SelectTrigger className="w-full shadow-input border-none">
-                <SelectValue placeholder="Region" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup className="mt-2">
-                  {regions.map(region => (
-                    <SelectItem key={generateValue(region)} className="cursor-pointer" value={generateValue(region)}>{region}</SelectItem>
-                  ))}
-                </SelectGroup>
-                <Separator className="my-2" />
-              </SelectContent>
-            </Select>
-            <ErrorMessage name="region" component="div" className="text-red-500" />
-          </div>
-
           <div className="w-full flex flex-col">
-            <p>Please describe in adjectives the personality of this segment</p>
+            <p><span className='font-bold'>Products: </span>what are the names of your brand’s products that you intend to market with Buzzers?</p>
             <InputTags
               name="segmentAdjectives"
-              placeholder="Add an adjective"
+              placeholder="Enter your product names here"
               values={initialValues.segmentAdjectives}
               setFieldValue={setFieldValue}
               maxTags={5}
@@ -91,13 +55,17 @@ const BrandProfileFormPageTwo = ({ initialValues, onSubmit, hasUnsavedChanges, a
 
           <div className="w-full flex flex-col">
             <p>What <span className='font-bold'>types of events</span> would you like to market to?</p>
-            <MultiSelect
-              name="eventTypes"
-              options={eventTypes}
-              placeholder="Select event types"
-              setFieldValue={setFieldValue}
-            />
-            <ErrorMessage name="eventTypes" component="div" className="text-red-500" />
+            <div className='flex flex-row'>
+              <Button variant="outline" className="border-r-0 rounded-r-[0rem] bg-salt">
+                <Minus size={14}/>
+              </Button>
+              <div className='w-[5rem]'>
+                <Input placeholder="1" className="text-center" onChange={(value) => setFieldValue("productQuantity", value)}/>
+              </div>
+              <Button variant="outline" className="border-none bg-salt">
+                <Plus size={14}/>
+              </Button>
+            </div>
           </div>
 
           <div className="w-full flex flex-col">
@@ -132,4 +100,4 @@ const BrandProfileFormPageTwo = ({ initialValues, onSubmit, hasUnsavedChanges, a
   );
 };
 
-export default BrandProfileFormPageTwo;
+export default BrandProfileFormPageThree;

@@ -45,7 +45,7 @@ const InputTags = ({ name, placeholder, setFieldValue, maxTags, errorMessage }) 
   };
 
   return (
-    <div className="w-full flex flex-col pb-2 gap-3">
+    <div className={`w-full flex flex-col pb-2 gap-3 ${tags.size > 0 && "mt-2"}`}>
       <div className="flex flex-row gap-2">
         {[...tags].map((tag) => (
           <Badge key={tag} className="py-2 font-medium bg-gray-200 rounded-[0.35rem]">
