@@ -24,7 +24,7 @@ function About() {
               </a>
             </div>
             <div>
-              <img src={EventCreation} alt="Event creation" className="pointer-events-none h-[28rem]" />
+              <img src={EventCreation} alt="Event creation" className="pointer-events-none mt-8 sm:mt-0 sm:h-[28rem] object-contain" />
             </div>
           </div>
         </div>
