@@ -56,7 +56,10 @@ const BrandProfileFormPageTwo = ({ initialValues, onSubmit, hasUnsavedChanges, a
 
           <div className="w-full flex flex-col gap-3 mb-4">
             <p>What is your target <span className='font-bold'>age range</span></p>
-            <RangeSlider showValues value={ageRange} onValueChange={setAgeRange} />
+            <RangeSlider showValues value={ageRange} onValueChange={(e) => {
+              setAgeRange(e);
+              setFieldValue('ageRange', e);
+            }} />
           </div>
 
           <div className="w-full flex flex-col gap-3">

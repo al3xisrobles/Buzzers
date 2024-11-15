@@ -4,6 +4,18 @@
 
 html {
   background-color: #FBFBFB;
+
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
 }
 
 @layer base {
@@ -28,6 +40,9 @@ html {
 
     --smoke: #3B3D3B;
     --smoke-foreground: #FBFBFB;
+
+    --stone: #8D8D8D;
+    --stone-foreground: #FBFBFB;
 
     --salt: #FBFBFB;
     --salt-foreground: #20201F;

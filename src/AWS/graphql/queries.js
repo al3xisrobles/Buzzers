@@ -59,36 +59,6 @@ export const listOrgSubmissions = /* GraphQL */ `
     }
   }
 `;
-export const getUsers = /* GraphQL */ `
-  query GetUsers($id: ID!) {
-    getUsers(id: $id) {
-      id
-      userType
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const listUsers = /* GraphQL */ `
-  query ListUsers(
-    $filter: ModelUsersFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        userType
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
 export const getBrandSubmission = /* GraphQL */ `
   query GetBrandSubmission($id: ID!) {
     getBrandSubmission(id: $id) {
@@ -102,6 +72,7 @@ export const getBrandSubmission = /* GraphQL */ `
       eventTypes
       desiredOrganizers
       products
+      agreementStructures
       createdAt
       updatedAt
       __typename
@@ -130,6 +101,7 @@ export const listBrandSubmissions = /* GraphQL */ `
         eventTypes
         desiredOrganizers
         products
+        agreementStructures
         createdAt
         updatedAt
         __typename

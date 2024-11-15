@@ -82,39 +82,6 @@ export const onDeleteOrgSubmission = /* GraphQL */ `
     }
   }
 `;
-export const onCreateUsers = /* GraphQL */ `
-  subscription OnCreateUsers($filter: ModelSubscriptionUsersFilterInput) {
-    onCreateUsers(filter: $filter) {
-      id
-      userType
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onUpdateUsers = /* GraphQL */ `
-  subscription OnUpdateUsers($filter: ModelSubscriptionUsersFilterInput) {
-    onUpdateUsers(filter: $filter) {
-      id
-      userType
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onDeleteUsers = /* GraphQL */ `
-  subscription OnDeleteUsers($filter: ModelSubscriptionUsersFilterInput) {
-    onDeleteUsers(filter: $filter) {
-      id
-      userType
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
 export const onCreateBrandSubmission = /* GraphQL */ `
   subscription OnCreateBrandSubmission(
     $filter: ModelSubscriptionBrandSubmissionFilterInput
@@ -130,6 +97,7 @@ export const onCreateBrandSubmission = /* GraphQL */ `
       eventTypes
       desiredOrganizers
       products
+      agreementStructures
       createdAt
       updatedAt
       __typename
@@ -151,6 +119,7 @@ export const onUpdateBrandSubmission = /* GraphQL */ `
       eventTypes
       desiredOrganizers
       products
+      agreementStructures
       createdAt
       updatedAt
       __typename
@@ -172,6 +141,7 @@ export const onDeleteBrandSubmission = /* GraphQL */ `
       eventTypes
       desiredOrganizers
       products
+      agreementStructures
       createdAt
       updatedAt
       __typename

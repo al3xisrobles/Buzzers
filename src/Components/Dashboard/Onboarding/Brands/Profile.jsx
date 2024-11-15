@@ -4,10 +4,13 @@ import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useAuth } from "../../Auth/AuthContext";
 import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { submitToAPI } from "../../../../AWS/api";
+import { createBrandSubmission } from "../../../../AWS/graphql/mutations";
 
 import PageOneForm from "./PageOneForm";
 import PageTwoForm from "./PageTwoForm";
 import PageThreeForm from "./PageThreeForm";
+import toast from "react-hot-toast";
 
 const BrandProfile = ({ setSignedUp }) => {
   const [page, setPage] = useState(1);
@@ -18,6 +21,7 @@ const BrandProfile = ({ setSignedUp }) => {
   const { authStatus } = useAuthenticator((context) => [context.user]);
   const { userAttributes, loadingAttributes, fetchAttributes } = useAuth();
   const hasUnsavedChanges = useRef(false);
+  const { user } = useAuthenticator((context) => [context.user]);
 
   useEffect(() => {
     if (!loadingAttributes && Object.keys(userAttributes).length !== 0) {
@@ -59,11 +63,73 @@ const BrandProfile = ({ setSignedUp }) => {
     products: []
   };
 
-  const handleFormSubmit = async (values) => {
+  const handleNextPage = (values) => {
     setFormData(values);
     setPage(page + 1);
     window.scrollTo(0, 0);
   };
+
+  const handleFormSubmit = async (values) => {
+    console.log("GOT BACK:", values);
+
+    // Turn agreement structures into list of strings
+    const agreementStructures = [];
+
+    // Find the highest structure number
+    const keys = Object.keys(values);
+    const structureNumbers = new Set();
+    keys.forEach(key => {
+      const match = key.match(/\d+$/);
+      if (match) {
+        structureNumbers.add(parseInt(match[0]));
+        console.log("Match:", match[0]);
+      } else {
+        console.log("No match:", key);
+      }
+    });
+
+    // Remove keys and create dictionaries
+    structureNumbers.forEach(num => {
+      const structure = {
+        [`name${num}`]: values[`name${num}`],
+        [`additionalInstructions${num}`]: values[`additionalInstructions${num}`],
+        [`distributionInstructions${num}`]: values[`distributionInstructions${num}`],
+        [`impressions${num}`]: values[`impressions${num}`],
+        [`productQuantity${num}`]: values[`productQuantity${num}`],
+      };
+
+      agreementStructures.push(JSON.stringify(structure));
+
+      // Remove keys from values
+      delete values[`name${num}`];
+      delete values[`additionalInstructions${num}`];
+      delete values[`distributionInstructions${num}`];
+      delete values[`impressions${num}`];
+      delete values[`productQuantity${num}`];
+    });
+
+    // Add the agreementStructures list to values
+    values.agreementStructures = agreementStructures;
+
+    // Add user ID
+    values.id = user.userId;
+
+    console.log("Values after processing:", values);
+
+    // AWS utils
+    try {
+      // Submit the form data to the API
+      await submitToAPI(values, createBrandSubmission);
+
+      console.log("Successfully submitted to DB API");
+
+      setSignedUp(true);
+    } catch (error) {
+      console.error("Error submitting form data:", error);
+
+      toast.error("An error occurred while submitting your form. Please try again later.");
+    }
+  }
 
   return (
     <div className="bg-salt">
@@ -86,7 +152,7 @@ const BrandProfile = ({ setSignedUp }) => {
 
           <PageOneForm
             initialValues={initialValues}
-            onSubmit={handleFormSubmit}
+            onSubmit={handleNextPage}
             hasUnsavedChanges={hasUnsavedChanges}
           />
         </div>
@@ -102,7 +168,7 @@ const BrandProfile = ({ setSignedUp }) => {
 
           <PageTwoForm
             initialValues={formData}
-            onSubmit={handleFormSubmit}
+            onSubmit={handleNextPage}
             hasUnsavedChanges={hasUnsavedChanges}
             ageRange={ageRange}
             setAgeRange={setAgeRange}

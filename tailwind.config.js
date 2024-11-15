@@ -43,6 +43,10 @@ module.exports = {
           DEFAULT: "var(--smoke)",
           foreground: "var(--smoke-foreground)",
         },
+        stone: {
+          DEFAULT: "var(--stone)",
+          foreground: "var(--stone-foreground)",
+        },
         salt: {
           DEFAULT: "var(--salt)",
           foreground: "var(--salt-foreground)",

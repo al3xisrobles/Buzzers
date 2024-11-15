@@ -3,7 +3,7 @@ import { generateClient } from 'aws-amplify/api';
 const client = generateClient();
 
 // Queries
-import { getOrgSubmission } from './graphql/queries';
+import { getOrgSubmission, getBrandSubmission } from './graphql/queries';
 
 // Storage
 import { uploadData } from "aws-amplify/storage";
@@ -47,16 +47,16 @@ const uploadImageToStorage = async (file, userId, subpath) => {
 
 /**
  * Submits an organization submission to the API.
- * @param {Object} orgSubmission - The organization submission data.
+ * @param {Object} orgSubmission - The submission data (object).
  * @param {string} query - The GraphQL query for submitting the data.
  * @returns {Promise<void>} A promise that resolves when the submission is successful.
  */
-const submitToAPI = async (orgSubmission, query) => {
+const submitToAPI = async (submission, query) => {
   return new Promise((resolve, reject) => {
     client.graphql({
       query: query,
       variables: {
-        input: orgSubmission
+        input: submission
       },
     }).then(() => {
       console.log("Successfully submitted to DB API");
@@ -75,13 +75,25 @@ const submitToAPI = async (orgSubmission, query) => {
  */
 const checkUserSignUpStatus = async (userId) => {
   try {
-    const response = await client.graphql({
+    // Check orgs
+    const orgResponse = await client.graphql({
       query: getOrgSubmission,
       variables: {
         id: userId,
       }
     });
-    return response.data.getOrgSubmission ? true : false;
+    if (orgResponse.data.getOrgSubmission) {
+      return true;
+    }
+
+    // Check brands
+    const brandResponse = await client.graphql({
+      query: getBrandSubmission,
+      variables: {
+        id: userId,
+      }
+    });
+    return brandResponse.data.getBrandSubmission ? true : false;
   } catch (error) {
     console.error("Error checking sign up status:", error);
     return false;
